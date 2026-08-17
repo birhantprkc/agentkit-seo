@@ -1,0 +1,251 @@
+{
+  "package": {
+    "name": "vitaecontext",
+    "version": "from-package-json",
+    "description": "VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills for turning that context into grounded professional work."
+  },
+  "skills": [
+    {
+      "name": "vitaecontext",
+      "source": "skills/vitaecontext"
+    },
+    {
+      "name": "vitaecontext-build",
+      "source": "skills/vitaecontext-build"
+    },
+    {
+      "name": "vitaecontext-cv",
+      "source": "skills/vitaecontext-cv"
+    },
+    {
+      "name": "vitaecontext-github",
+      "source": "skills/vitaecontext-github"
+    },
+    {
+      "name": "vitaecontext-linkedin",
+      "source": "skills/vitaecontext-linkedin"
+    },
+    {
+      "name": "vitaecontext-vitaegraph",
+      "source": "skills/vitaecontext-vitaegraph"
+    },
+    {
+      "name": "vitaecontext-portfolio",
+      "source": "skills/vitaecontext-portfolio"
+    },
+    {
+      "name": "vitaecontext-x",
+      "source": "skills/vitaecontext-x"
+    }
+  ],
+  "providers": {
+    "shared": {
+      "layout": "shared",
+      "target": "skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "claude-code": {
+      "layout": "skill-folders",
+      "target": ".claude/skills",
+      "globalTarget": "~/.claude/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "codex": {
+      "layout": "skill-folders",
+      "target": ".codex/skills",
+      "homeEnv": "CODEX_HOME",
+      "globalTarget": "~/.codex/skills",
+      "additionalTargets": [
+        ".agents/skills"
+      ],
+      "additionalGlobalTargets": [
+        "~/.agents/skills"
+      ]
+    },
+    "cursor": {
+      "layout": "skill-folders",
+      "target": ".cursor/skills",
+      "globalTarget": "~/.cursor/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "windsurf": {
+      "layout": "skill-folders",
+      "target": ".windsurf/skills",
+      "globalTarget": "~/.codeium/windsurf/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "roo-code": {
+      "layout": "skill-folders",
+      "target": ".roo/skills",
+      "globalTarget": "~/.config/roo-code/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "ibm-bob": {
+      "layout": "skill-folders",
+      "target": ".ibm/skills",
+      "globalTarget": "~/.ibm/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "grok": {
+      "layout": "skill-folders",
+      "target": ".grok/skills",
+      "globalTarget": "~/.grok/skills",
+      "skillExcludes": [
+        "agents"
+      ]
+    },
+    "gemini-cli": {
+      "layout": "gemini-extension",
+      "target": ".gemini/extensions/vitaecontext",
+      "globalTarget": "~/.gemini/extensions/vitaecontext",
+      "skillTarget": "skills",
+      "skillExcludes": [
+        "agents"
+      ],
+      "commandTarget": "commands/vitaecontext",
+      "files": [
+        {
+          "source": "providers/gemini-cli/extension/gemini-extension.json",
+          "syncPackageVersion": true
+        },
+        {
+          "source": "providers/gemini-cli/extension/GEMINI.md"
+        }
+      ],
+      "commands": [
+        {
+          "name": "vitaecontext:context",
+          "source": "providers/gemini-cli/commands/vitaecontext/context.toml"
+        },
+        {
+          "name": "vitaecontext:cv",
+          "source": "providers/gemini-cli/commands/vitaecontext/cv.toml"
+        },
+        {
+          "name": "vitaecontext:github",
+          "source": "providers/gemini-cli/commands/vitaecontext/github.toml"
+        },
+        {
+          "name": "vitaecontext:linkedin",
+          "source": "providers/gemini-cli/commands/vitaecontext/linkedin.toml"
+        },
+        {
+          "name": "vitaecontext:vitaegraph",
+          "source": "providers/gemini-cli/commands/vitaecontext/vitaegraph.toml"
+        },
+        {
+          "name": "vitaecontext:portfolio",
+          "source": "providers/gemini-cli/commands/vitaecontext/portfolio.toml"
+        },
+        {
+          "name": "vitaecontext:x",
+          "source": "providers/gemini-cli/commands/vitaecontext/x.toml"
+        }
+      ]
+    },
+    "antigravity": {
+      "layout": "gemini-extension",
+      "target": ".gemini/antigravity-cli/plugins/vitaecontext",
+      "globalTarget": "~/.gemini/antigravity-cli/plugins/vitaecontext",
+      "skillTarget": "skills",
+      "skillExcludes": [
+        "agents"
+      ],
+      "commandTarget": "commands/vitaecontext",
+      "files": [
+        {
+          "source": "providers/antigravity/extension/plugin.json"
+        },
+        {
+          "source": "providers/antigravity/extension/gemini-extension.json",
+          "syncPackageVersion": true
+        },
+        {
+          "source": "providers/antigravity/extension/GEMINI.md"
+        }
+      ],
+      "commands": [
+        {
+          "name": "vitaecontext:context",
+          "source": "providers/antigravity/commands/vitaecontext/context.toml"
+        },
+        {
+          "name": "vitaecontext:cv",
+          "source": "providers/antigravity/commands/vitaecontext/cv.toml"
+        },
+        {
+          "name": "vitaecontext:github",
+          "source": "providers/antigravity/commands/vitaecontext/github.toml"
+        },
+        {
+          "name": "vitaecontext:linkedin",
+          "source": "providers/antigravity/commands/vitaecontext/linkedin.toml"
+        },
+        {
+          "name": "vitaecontext:vitaegraph",
+          "source": "providers/antigravity/commands/vitaecontext/vitaegraph.toml"
+        },
+        {
+          "name": "vitaecontext:portfolio",
+          "source": "providers/antigravity/commands/vitaecontext/portfolio.toml"
+        },
+        {
+          "name": "vitaecontext:x",
+          "source": "providers/antigravity/commands/vitaecontext/x.toml"
+        }
+      ]
+    },
+    "opencode": {
+      "layout": "skill-folders",
+      "target": ".opencode/skills",
+      "globalTarget": "~/.config/opencode/skills",
+      "skillExcludes": [
+        "agents"
+      ],
+      "commandTarget": ".opencode/commands",
+      "globalCommandTarget": "~/.config/opencode/commands",
+      "commands": [
+        {
+          "name": "vitaecontext-context",
+          "source": "providers/opencode/commands/vitaecontext-context.md"
+        },
+        {
+          "name": "vitaecontext-cv",
+          "source": "providers/opencode/commands/vitaecontext-cv.md"
+        },
+        {
+          "name": "vitaecontext-github",
+          "source": "providers/opencode/commands/vitaecontext-github.md"
+        },
+        {
+          "name": "vitaecontext-linkedin",
+          "source": "providers/opencode/commands/vitaecontext-linkedin.md"
+        },
+        {
+          "name": "vitaecontext-vitaegraph",
+          "source": "providers/opencode/commands/vitaecontext-vitaegraph.md"
+        },
+        {
+          "name": "vitaecontext-portfolio",
+          "source": "providers/opencode/commands/vitaecontext-portfolio.md"
+        },
+        {
+          "name": "vitaecontext-x",
+          "source": "providers/opencode/commands/vitaecontext-x.md"
+        }
+      ]
+    }
+  }
+}

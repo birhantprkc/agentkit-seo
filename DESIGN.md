@@ -6,10 +6,10 @@ It is written for a reader who wants to understand the project quickly, includin
 
 ## At a glance
 
-- **What it is:** a portable skill bundle that installs into AI coding agents (Claude Code, Codex, Gemini CLI, Antigravity, OpenCode) and helps optimize a developer's public career surfaces: GitHub, LinkedIn, CV/ATS, web portfolio, and X/Twitter.
+- **What it is:** a standard Agent Skills bundle and stateless MCP server that integrates into AI coding assistants (Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Cursor, Windsurf, Roo Code, IBM Bob, Grok) and helps optimize a developer's public career surfaces: GitHub, LinkedIn, CV/ATS, web portfolio, and X/Twitter.
 - **The problem:** most agents can already rewrite a CV or a bio, but the output drifts between tools, invents facts, and ignores platform constraints. Consistency and grounding are the hard parts.
 - **The core idea:** use a compact Career Context file for fast positioning and an optional, separate VitaeGraph for deep hierarchical records. Platform skills progressively load only the private context needed for a task.
-- **What makes it interesting:** the project is not a prompt collection. It is a small system that applies current ideas from agentic AI, an LLM-readable knowledge layer, progressive context loading, a cross-referenced knowledge graph, and explicit evidence labeling, and ships them as a validated, versioned package.
+- **What makes it interesting:** the project is not a prompt collection. It is a small system that applies current ideas from agentic AI, an LLM-readable knowledge layer, progressive context loading, a cross-referenced knowledge graph, explicit evidence labeling, and Model Context Protocol (MCP), shipped as a validated, versioned package.
 
 ## Agentic-AI concepts applied
 
@@ -19,13 +19,14 @@ The following table maps each concept to its origin and to where it lives in the
 
 | Concept | One-line idea | Where it lives |
 | --- | --- | --- |
-| Career Context file | A private `AGENTS.md` for a person: verified facts, stated goals, growth direction, and constraints an agent reads before writing | [`vitaecontext-build`](./.skills/agent-skill/vitaecontext-build/SKILL.md) |
-| VitaeGraph | A separate local Markdown graph of deep hierarchical career records, containment and cross-record relationships, and deterministic retrieval artifacts | [`vitaegraph/`](./vitaegraph/), [`vitaecontext-vitaegraph`](./.skills/agent-skill/vitaecontext-vitaegraph/SKILL.md) |
-| LLM Wiki | A knowledge base a maintainer agent compiles from sources and keeps current, read by runtime agents rather than re-derived per query | [`*/wiki/`](./.skills/agent-skill/vitaecontext/wiki/vitaecontext.md), [`llms-full.txt`](./llms-full.txt) |
+| Career Context file | A private `AGENTS.md` for a person: verified facts, stated goals, growth direction, and constraints an agent reads before writing | [`vitaecontext-build`](./skills/vitaecontext-build/SKILL.md) |
+| VitaeGraph | A separate local Markdown graph of deep hierarchical career records, containment and cross-record relationships, and deterministic retrieval artifacts | [`vitaegraph/`](./vitaegraph/), [`vitaecontext-vitaegraph`](./skills/vitaecontext-vitaegraph/SKILL.md) |
+| Stateless MCP Server | Standard Model Context Protocol interface allowing any agent workspace to query private Career Context and VitaeGraph without repo file copies | [`src/mcp/`](./src/mcp/), [`mcp/`](./mcp/), [`bin/vitaecontext-mcp.mjs`](./bin/vitaecontext-mcp.mjs) |
+| LLM Wiki | A knowledge base a maintainer agent compiles from sources and keeps current, read by runtime agents rather than re-derived per query | [`*/wiki/`](./skills/vitaecontext/wiki/vitaecontext.md), [`llms-full.txt`](./llms-full.txt) |
 | Progressive disclosure | Load one module, then only the references and wiki a task needs | `## Wiki context` and token-discipline sections in each `SKILL.md` |
-| Markdown knowledge graph | Cross-referenced `.md` files with one entrypoint and explicit edges | [`references/`](./.skills/agent-skill/vitaecontext/references/) link graph, [`llms.txt`](./llms.txt) |
+| Markdown knowledge graph | Cross-referenced `.md` files with one entrypoint and explicit edges | [`references/`](./skills/vitaecontext/references/) link graph, [`llms.txt`](./llms.txt) |
 | Evidence and confidence labels | Mark each claim as verified, inferred, or needing evidence | `Boundaries` sections and `wiki/` confidence metadata |
-| One source, many adapters | Keep one portable source of truth, generate per-provider layouts | [`.skills/agent-skill/`](./.skills/agent-skill/) plus [`.skills/providers/`](./.skills/providers/) |
+| One source, many adapters | Keep one portable source of truth in `skills/`, generate or link per-provider layouts | [`skills/`](./skills/) plus [`providers/`](./providers/) |
 | AI-answer-engine readiness (GEO/AEO) | Structure each surface so AI search and assistants can quote a person accurately | per-module AI-readability guidance ([GitHub](./hub/github/copilot-and-agents.md), [LinkedIn](./hub/linkedin/ai-agent-optimization.md), [portfolio](./hub/web-portfolio/llms-and-aeo.md)) |
 
 ### Career Context file as an `AGENTS.md` for a person
@@ -35,6 +36,10 @@ Developers already accept that a repository should carry a context file so an ag
 ### VitaeGraph as the deeper career graph
 
 VitaeGraph avoids forcing every detail into the compact context file. Stable `type:slug` records model projects and roles in dedicated folders, with thesis and university courses nested under their degree. Explicit parent and cross-record links preserve both hierarchy and graph traversal, while `VITAEGRAPH.md` and `index.md` provide progressive retrieval. The CLI validates structural references and builds deterministic graph and lexical JSON under `.generated/`; it does not authenticate real-world claims or guarantee retrieval quality.
+
+### Model Context Protocol (MCP) Integration
+
+With the native MCP server implementation, agents operating across multiple client tools (Claude Desktop, Claude Code, Cursor, Windsurf, Roo Code, IBM Bob, Grok) can instantly read resources like `career-context://current` and `vitaegraph://index`, execute tools like `get_career_context` and `search_vitaegraph`, and invoke prompts like `cv_tailoring` directly without needing repository-level duplication.
 
 ### LLM Wiki: knowledge the model reads, not writes
 
@@ -48,7 +53,7 @@ Loading every skill into context is wasteful and noisy. Each `SKILL.md` declares
 
 ### A Markdown knowledge graph
 
-The repository is organized as a navigable graph of Markdown files rather than a flat folder. A single runtime entrypoint, the root wiki, points to module skills, which point to their references and wiki entries, which point to human-readable playbooks and source notes. The edges are explicit relative links, so both humans and agents can traverse from a broad question down to a specific constraint without loading everything. The graph is drawn in the next section.
+The repository is organized as a navigable graph of Markdown files rather than a flat folder. A single runtime entrypoint, the root wiki, points to module skills, which point to their references and wiki entries, which point to human-readable playbooks and source notes. The edges are explicit relative links, so both humans and agents can traverse from a broad question down to a specific constraint without loading everything.
 
 ### Evidence and confidence labeling
 
@@ -56,7 +61,7 @@ Career advice is only useful if its certainty is visible. Cross-surface output l
 
 ### One portable source, thin provider adapters
 
-Runtime methodology lives once in [`.skills/agent-skill/`](./.skills/agent-skill/). Provider folders stay thin: install notes, command wrappers, and metadata. The export CLI generates each provider's required layout from the single source, so the same methodology installs into six environments without a second copy drifting out of sync.
+Runtime methodology lives once in [`skills/`](./skills/). Provider folders stay thin: install notes, command wrappers, and metadata. The export CLI generates each provider's required layout from the single source, so the same methodology installs across many environments without separate copies drifting out of sync.
 
 ### AI-answer-engine readiness (GEO/AEO)
 
@@ -70,6 +75,7 @@ The intended read path is hierarchical. A broad question enters at the root and 
 flowchart TD
   CTX["Career Context file (private source of truth)"]
   VG["VitaeGraph (private hierarchical career graph)"]
+  MCP["MCP Server: stdio JSON-RPC 2.0"]
   README["README.md"]
   ROOT["root runtime wiki: vitaecontext/wiki/vitaecontext.md"]
   SKILL["vitaecontext-(module)/SKILL.md"]
@@ -90,6 +96,8 @@ flowchart TD
   WIDX --> WKNOW
   CTX -. read before writing .-> SKILL
   VG -. selected records .-> SKILL
+  MCP -. provides resources and tools .-> CTX
+  MCP -. provides resources and tools .-> VG
 ```
 
 Two properties matter here. First, there is one entrypoint: the root wiki decides which module to load before any module detail is read. Second, the deepest knowledge, module `wiki/knowledge.md`, is only reached when a task actually needs it, which keeps routine work cheap in context.
@@ -102,6 +110,7 @@ The project is also a record of continuous study: each release line adopted a ne
 - **1.5.x, distribution as adapters.** Hardened multi-provider install and export, added the Gemini-compatible extension layout and the Antigravity plugin layout, and kept one source of truth behind thin adapters.
 - **1.6.x, the knowledge layer.** Added the LLM Wiki layer for every module, the root self-description, conditional wiki loading, shared evidence labels, and `llms.txt` and `llms-full.txt`. This is where the project became a navigable knowledge graph rather than a set of prompts.
 - **1.7.x, operational rigor.** Added a manifest-driven lifecycle to the CLI: `update` compares an installed bundle against the npm registry, and `uninstall` removes exactly what an install created. Reproducibility and clean removal became first-class.
+- **2.2.0, standard architecture & MCP.** Migrated to open Agent Skills root standard (`skills/`), unified binaries under `bin/`, native ESM engine in `src/`, added 5 new provider adapters (Cursor, Windsurf, Roo Code, IBM Bob, Grok), and delivered a native Model Context Protocol (MCP) server for stateless cross-project career context access.
 
 ## Sources and influences
 
@@ -110,8 +119,9 @@ These are influences rather than guarantees. VitaeContext does not claim ranking
 - The LLM Wiki framing, knowledge the model reads rather than writes, is associated with Andrej Karpathy's commentary on building knowledge for language models.
 - The context-file pattern follows the repository `AGENTS.md` and `CLAUDE.md` convention for giving agents project context before they act.
 - Progressive disclosure follows the agent-skill design idea that an agent should load instructions and reference material only when a task needs them.
+- Model Context Protocol (MCP) specification by Anthropic provides a standardized open transport for connecting AI models to private data sources and tools.
 - The audit scoring pattern (weighted categories rolled into a 0-100 band with a fix-first ranking) is adapted from open generative-engine-optimization tooling such as the geo-optimizer skill, and used here strictly as an internal prioritization heuristic, not a platform metric.
-- `llms.txt` and `llms-full.txt` follow an emerging community convention for exposing an AI-readable map of a site or package. As of 2026 its adoption is still limited and its measured effect on AI citations is unproven, so this project ships it as a low-cost, honestly-labeled convention (an inferred, low-confidence signal) rather than a search-ranking lever.
+- `llms.txt` and `llms-full.txt` follow an emerging community convention for exposing an AI-readable map of a site or package.
 
 ---
 

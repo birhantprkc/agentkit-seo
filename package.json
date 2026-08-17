@@ -1,11 +1,12 @@
 {
   "name": "vitaecontext",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills for turning that context into grounded professional work.",
   "type": "module",
   "bin": {
-    "vitaecontext": ".skills/export/scripts/vitaecontext.mjs",
-    "agentkit-seo": ".skills/export/scripts/vitaecontext.mjs"
+    "vitaecontext": "bin/vitaecontext.mjs",
+    "vitaecontext-mcp": "bin/vitaecontext-mcp.mjs",
+    "agentkit-seo": "bin/vitaecontext.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,11 @@
   "files": [
     ".agents/plugins",
     ".claude-plugin",
-    ".skills/agent-skill",
-    ".skills/export",
-    ".skills/providers",
+    "bin",
+    "src",
+    "skills",
+    "providers",
+    "mcp",
     "hub",
     "evals/groundedness",
     "vitaegraph",
@@ -34,13 +37,11 @@
     ".assets/docs/project.md",
     ".assets/docs/architecture-map.md",
     ".assets/docs/STYLEGUIDE.md",
-    ".skills/architecture.md",
     "gemini-extension.json",
     "GEMINI.md",
     "llms.txt",
     "llms-full.txt",
     "commands",
-    "skills",
     "AGENTS.md",
     "CHANGELOG.md",
     "CONTRIBUTING.md",
@@ -51,21 +52,24 @@
     "SECURITY.md"
   ],
   "scripts": {
-    "export": "node .skills/export/scripts/vitaecontext.mjs export",
-    "install:skills": "node .skills/export/scripts/vitaecontext.mjs install",
-    "list:providers": "node .skills/export/scripts/vitaecontext.mjs list providers",
-    "list:skills": "node .skills/export/scripts/vitaecontext.mjs list skills",
-    "sync:codex-plugin": "node .skills/export/scripts/sync-codex-plugin.mjs",
-    "check:codex-plugin": "node .skills/export/scripts/sync-codex-plugin.mjs --check",
+    "mcp": "node bin/vitaecontext-mcp.mjs",
+    "export": "node bin/vitaecontext.mjs export",
+    "install:skills": "node bin/vitaecontext.mjs install",
+    "list:providers": "node bin/vitaecontext.mjs list providers",
+    "list:skills": "node bin/vitaecontext.mjs list skills",
+    "sync:codex-plugin": "node src/sync-codex-plugin.mjs",
+    "check:codex-plugin": "node src/sync-codex-plugin.mjs --check",
     "test": "node --test test/*.test.mjs",
-    "validate": "node .skills/export/scripts/vitaecontext.mjs doctor",
-    "validate:package": "node .skills/export/scripts/package-audit.mjs",
-    "version:cli": "node .skills/export/scripts/vitaecontext.mjs version"
+    "validate": "node bin/vitaecontext.mjs doctor",
+    "validate:package": "node src/package-audit.mjs",
+    "version:cli": "node bin/vitaecontext.mjs version"
   },
   "keywords": [
     "agent-skills",
     "ai-agents",
     "antigravity-cli",
+    "mcp",
+    "model-context-protocol",
     "seo",
     "personal-branding",
     "profile-optimization",

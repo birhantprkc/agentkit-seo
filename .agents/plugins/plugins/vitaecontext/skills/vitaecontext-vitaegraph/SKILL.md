@@ -99,7 +99,7 @@ Do not spend user-facing tokens narrating the blueprint unless the user asks. Us
 
 Resolve graph commands in this order:
 
-1. In the VitaeContext source checkout, use `node .skills/export/scripts/vitaecontext.mjs graph <command>` from the repository root.
+1. In the VitaeContext source checkout, use `node bin/vitaecontext.mjs graph <command>` from the repository root.
 2. Otherwise use an installed `vitaecontext graph <command>` command when available.
 3. Use `npx vitaecontext graph <command>` only when package execution and network access are acceptable in the current environment.
 4. If no CLI path is available, perform a bounded manual check of required files, frontmatter, IDs, parents, related records, and Markdown links. Report that machine validation or indexing did not run. Never describe a manual check as a passing CLI validation.

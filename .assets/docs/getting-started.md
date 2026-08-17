@@ -1,6 +1,6 @@
 # VitaeContext getting started
 
-This guide gives new users and new contributors the shortest safe path through the repository. It explains which files to read first, which commands to run, and when to switch from human docs to runtime skill files.
+This guide gives new users and new contributors the shortest safe path through the repository (current release line: vitaecontext 2.2.0). It explains which files to read first, which commands to run, and when to switch from human docs to runtime skill files.
 
 ## 1. Choose the right path
 
@@ -9,18 +9,19 @@ Use this table before opening deeper files.
 | Goal | Start with | Then read |
 | --- | --- | --- |
 | Install VitaeContext into an agent tool | [README.md](../../README.md) | First install |
+| Connect any agent workspace via MCP | [mcp/README.md](../../mcp/README.md) | [Client configuration examples](../../mcp/config-examples/) |
 | See what a skill-ready agent can do | [end-to-end-workflows.md](./end-to-end-workflows.md) | The matching runtime skill |
-| Build a Career Context file | [hub/context-builder/README.md](../../hub/context-builder/README.md) | [Context Builder skill](../../.skills/agent-skill/vitaecontext-build/SKILL.md) |
-| Build, maintain, validate, or retrieve a detailed private career graph | [vitaegraph/README.md](../../vitaegraph/README.md) | [VitaeGraph skill](../../.skills/agent-skill/vitaecontext-vitaegraph/SKILL.md) |
-| Optimize one public surface | The matching `hub/<module>/README.md` | The matching `.skills/agent-skill/vitaecontext-<module>/SKILL.md` |
+| Build a Career Context file | [hub/context-builder/README.md](../../hub/context-builder/README.md) | [Context Builder skill](../../skills/vitaecontext-build/SKILL.md) |
+| Build, maintain, validate, or retrieve a detailed private career graph | [vitaegraph/README.md](../../vitaegraph/README.md) | [VitaeGraph skill](../../skills/vitaecontext-vitaegraph/SKILL.md) |
+| Optimize one public surface | The matching `hub/<module>/README.md` | The matching `skills/vitaecontext-<module>/SKILL.md` |
 | Understand the design thinking and concepts applied | [DESIGN.md](../../DESIGN.md) | [architecture-map.md](./architecture-map.md) |
-| Understand the repo architecture | [architecture-map.md](./architecture-map.md) | [.skills/architecture.md](../../.skills/architecture.md) |
-| Understand the runtime knowledge graph | [root runtime wiki](../../.skills/agent-skill/vitaecontext/wiki/vitaecontext.md) | [llms.txt](../../llms.txt) |
+| Understand the repo architecture | [architecture-map.md](./architecture-map.md) | [Project overview](../../README.md) |
+| Understand the runtime knowledge graph | [root runtime wiki](../../skills/vitaecontext/wiki/vitaecontext.md) | [llms.txt](../../llms.txt) |
 | Maintain or release the package | [MAINTAINING.md](../../MAINTAINING.md) | [current-status.md](./current-status.md) |
 
 ## 2. Repository layers
 
-VitaeContext has two documentation branches plus the VitaeGraph product contract.
+VitaeContext has two documentation branches plus the VitaeGraph and MCP product contracts.
 
 Human layer:
 
@@ -33,8 +34,8 @@ README.md
 Runtime layer:
 
 ```text
-.skills/agent-skill/vitaecontext/wiki/vitaecontext.md
-└── .skills/agent-skill/vitaecontext-<module>/SKILL.md
+skills/vitaecontext/wiki/vitaecontext.md
+└── skills/vitaecontext-<module>/SKILL.md
     └── wiki/index.md
         └── wiki/knowledge.md
 ```
@@ -47,118 +48,58 @@ vitaegraph/README.md
 └── templates/
 ```
 
+MCP server layer:
+
+```text
+mcp/README.md
+├── config-examples/
+└── schema/
+```
+
 The human layer explains playbooks, templates, examples, and source ledgers. The runtime layer is what installed agents use to decide which skill and wiki entries to load.
 
-## 3. First install
+## 3. Fast CLI path
 
-Check the package version:
+Run the smallest command that matches your immediate goal:
 
 ```bash
-npx vitaecontext version
+# 1. Check version
+node bin/vitaecontext.mjs version
+
+# 2. Check repo health
+node bin/vitaecontext.mjs doctor
+
+# 3. Initialize a private Career Context file
+node bin/vitaecontext.mjs context init
+
+# 4. Initialize a private VitaeGraph
+node bin/vitaecontext.mjs graph init
+
+# 5. Start the MCP server over stdio
+node bin/vitaecontext-mcp.mjs
 ```
 
-Expected output:
+## 4. Suggested first prompts
+
+### Prompt A: Bootstrap Career Context from an existing CV
 
 ```text
-vitaecontext 2.1.0
-VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills for turning that context into grounded professional work.
+Help me initialize my private Career Context using VitaeContext.
+Ask for the missing required sections one at a time and validate the output.
 ```
 
-Install the skills for one provider:
-
-```bash
-npx vitaecontext install --provider codex
-```
-
-Expected shape:
+### Prompt B: Tailor CV for a specific role
 
 ```text
-Installed 8 skill folder(s) for codex
-- target: <codex skill directory>
-- manifest: <codex skill directory>/vitaecontext-install.json
+Load my Career Context and tailor a CV draft for a Senior Distributed Systems Engineer role.
+Ground every claim in verified context. Flag missing evidence rather than inventing it.
 ```
 
-List supported providers when choosing a target:
-
-```bash
-npx vitaecontext list providers
-```
-
-Expected output:
+### Prompt C: Audit LinkedIn profile
 
 ```text
-antigravity
-claude-code
-codex
-gemini-cli
-opencode
-shared
-```
-
-Check whether a newer package is published before reinstalling:
-
-```bash
-npx vitaecontext update
-```
-
-This compares your local package version against the npm registry latest. To check a provider install instead, run `npx vitaecontext@latest update --provider codex` and preserve any custom `--project-root` or `--target-dir` flags. The check runs only when invoked and needs network access; there is no background or automatic check. To update, reinstall from the latest package.
-
-Remove an install with the same provider and destination flags used to install it:
-
-```bash
-npx vitaecontext uninstall --provider codex
-```
-
-Uninstall reads the install manifest and removes only the VitaeContext skill folders, command wrappers, and manifest. Use `--dry-run` to preview removals before deleting anything.
-
-## 4. First use
-
-Initialize a minimal Career Context file outside the repository:
-
-```bash
-npx vitaecontext context init --output ~/.vitaecontext/my-context.md
-```
-
-Expected shape:
-
-```text
-Initialized Career Context at ~/.vitaecontext/my-context.md
-```
-
-Give trusted raw material to the agent and invoke the Context Builder skill to create the Career Context file:
-
-```text
-Use vitaecontext-build to create my Career Context file.
-I can provide my CV, LinkedIn sections, GitHub URL, portfolio URL, project notes,
-screenshots, or any other career material you need.
-```
-
-Validate the finished document, then create a bounded packet for the first task:
-
-```bash
-npx vitaecontext context validate ~/.vitaecontext/my-context.md
-npx vitaecontext context summary ~/.vitaecontext/my-context.md --for github --output /tmp/github-context.md
-```
-
-Use `--json` with validation when an editor or agent needs structured diagnostics. Validation checks format and internal consistency, not external truth.
-
-Then use one platform skill:
-
-```text
-Use vitaecontext-github to audit my GitHub profile for hiring visibility.
-Use my Career Context file at ~/.vitaecontext/my-context.md.
-```
-
-For detailed multi-file records, initialize a separate private VitaeGraph and ask the skill to select the smallest lifecycle mode:
-
-```bash
-npx vitaecontext graph init
-```
-
-```text
-Use vitaecontext-vitaegraph to deepen the project records in
-~/.vitaecontext/vitaegraph from these explicit repositories and notes.
-Do not modify unrelated domains. Validate and index after the update.
+Audit my LinkedIn profile against the VitaeContext scorecard.
+Review headline, about, experience, and skills discoverability with grounded recommendations.
 ```
 
 ## 5. How agents should navigate
@@ -167,7 +108,7 @@ For broad or unclear tasks, agents should read in this order:
 
 1. [README.md](../../README.md) for the project surface.
 2. [architecture-map.md](./architecture-map.md) for repository layers.
-3. [root runtime wiki](../../.skills/agent-skill/vitaecontext/wiki/vitaecontext.md) for graph navigation.
+3. [root runtime wiki](../../skills/vitaecontext/wiki/vitaecontext.md) for graph navigation.
 4. One relevant module `SKILL.md`.
 5. That module's `wiki/index.md`.
 6. That module's `wiki/knowledge.md` only when detailed constraints are needed.
@@ -181,10 +122,9 @@ For source changes, use this order:
 
 1. Read [architecture-map.md](./architecture-map.md).
 2. Read [STYLEGUIDE.md](./STYLEGUIDE.md) before Markdown edits.
-3. Read [.skills/architecture.md](../../.skills/architecture.md) before runtime, provider, export, or install changes.
-4. Edit the canonical source first.
-5. Update dependent docs, wiki entries, mirrors, package metadata, or release notes when behavior changes.
-6. Run the smallest relevant validation from [architecture-map.md](./architecture-map.md).
+3. Edit the canonical source first (`skills/`, `src/`, `providers/`, `mcp/`).
+4. Update dependent docs, wiki entries, mirrors, package metadata, or release notes when behavior changes.
+5. Run the smallest relevant validation from [architecture-map.md](./architecture-map.md).
 
 ## 7. See also
 

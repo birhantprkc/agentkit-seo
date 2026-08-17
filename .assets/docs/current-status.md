@@ -9,7 +9,7 @@ This file is the maintainer snapshot for what is live, what is packaged, and wha
 - Source repo: `https://github.com/vitaecontext/vitaecontext`
 - Website and human-readable hub: `https://vitaecontext.github.io/`
 - npm package: `https://www.npmjs.com/package/vitaecontext`
-- Current package version: `vitaecontext@2.1.0`
+- Current package version: `vitaecontext@2.2.0`
 
 Published release line:
 
@@ -20,23 +20,24 @@ Published release line:
 - `v1.8.0` through `v1.8.3`
 - `v1.9.0` through `v1.9.2`
 - `v2.0.0`
+- `v2.1.0`
 
 Prepared next release:
 
-- `v2.1.0` is prepared in the source tree and requires the matching release tag before it is available from npm.
+- `v2.2.0` is prepared in the source tree and requires the matching release tag before it is available from npm.
 
 ### Current architecture
 
-- `.skills/agent-skill/` is the canonical runtime source.
-- `.skills/providers/` contains thin provider adapters.
-- `.skills/export/` contains the install, export, doctor, list, version, Career Context, VitaeGraph, and template CLI.
+- `skills/` is the canonical runtime source (standard Agent Skills).
+- `providers/` contains thin provider adapters (Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Cursor, Windsurf, Roo Code, IBM Bob, Grok, Shared).
+- `src/` and `bin/` contain the core engine, CLI, and stateless MCP server.
+- `mcp/` contains Model Context Protocol documentation, client configs, and protocol contracts.
 - `hub/` contains human-readable playbooks, templates, examples, and source notes.
 - `.assets/docs/` contains maintainer docs, status, architecture, and Markdown rules.
 - `llms.txt` and `llms-full.txt` expose the LLM-facing map and bundled wiki layer.
-- `.skills/agent-skill/vitaecontext/wiki/vitaecontext.md` is the runtime graph entrypoint for installed agents.
+- `skills/vitaecontext/wiki/vitaecontext.md` is the runtime graph entrypoint for installed agents.
 - `.assets/docs/getting-started.md` provides setup onboarding, and `.assets/docs/end-to-end-workflows.md` provides skill-ready demos with prompts, inputs, and expected deliverables.
 - `DESIGN.md` is the human and recruiter-facing design overview: applied agentic-AI concepts mapped to their source and location, a knowledge-graph diagram, and a release-by-release evolution record.
-- Root `skills/`, `commands/`, `GEMINI.md`, and `gemini-extension.json` are generated Gemini-compatible distribution artifacts stored in the repo intentionally.
 - Root `vitaegraph/` is the shipped product entrypoint for VitaeGraph schemas and canonical templates. Private user graphs remain outside the repository.
 
 ### Shipped skill coverage

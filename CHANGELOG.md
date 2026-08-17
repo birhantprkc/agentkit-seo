@@ -4,11 +4,25 @@ All notable changes to VitaeContext are documented here.
 
 This project follows npm package versions and mirrors them with matching GitHub `v*` tags.
 
-## Unreleased
+## 2.2.0 - 2026-08-17
+
+### Added
+
+- **Stateless Model Context Protocol (MCP) Server**: Added native JSON-RPC 2.0 stdio MCP server (`bin/vitaecontext-mcp.mjs` and `vitaecontext mcp`) conforming to protocol version `2024-11-05` with zero external dependencies.
+- **MCP Cross-Workspace Tools, Resources & Prompts**:
+  - Resources: `career-context://current`, `vitaegraph://index`, `vitaegraph://record/{id}`, `vitaecontext://wiki/{module}`.
+  - Tools: `get_career_context`, `search_vitaegraph`, `validate_career_context`.
+  - Prompts: `cv_tailoring`, `linkedin_audit`, `github_showcase`, `career_context_intake`.
+- **Extended AI Coding Agent Adapters**: Added 5 new provider targets (`cursor`, `windsurf`, `roo-code`, `ibm-bob`, `grok`), bringing total supported agent environments to 11.
+- **Client MCP Configuration Templates**: Added ready-to-use client setup examples for Claude Desktop, Claude Code, Cursor, Windsurf, Roo Code / Cline, Antigravity, IBM Bob, and xAI Grok.
 
 ### Changed
 
-- Updated `vitaecontext-build` to retrieve GitHub usernames and public profile or repository sources through the bundled `vitaecontext-github` fetcher, with explicit temporary-report cleanup and degraded-mode handling.
+- **Standard Open Agent Skills Root Architecture**: Migrated canonical methodology skills from `.skills/agent-skill/` directly to standard root `skills/` following the [agentskills.io](https://agentskills.io) open specification.
+- **Standardized Binaries & Modular Core Engine**: Standardized top-level `bin/` CLI executables (`bin/vitaecontext.mjs`, `bin/vitaecontext-mcp.mjs`) and modular pure ESM implementation in `src/` (`src/context/`, `src/vitaegraph/`, `src/mcp/`, `src/install.mjs`, `src/doctor.mjs`).
+- **Removed Legacy `.skills/` Hierarchy**: Deprecated and deleted legacy `.skills/` tree in favor of standard root `skills/`, `providers/`, `bin/`, and `src/` directories.
+- **Live Subprocess Stdio MCP Testing**: Added live child process JSON-RPC 2.0 stdio stream integration tests into the test suite.
+
 
 ## 2.1.0 - 2026-07-19
 
