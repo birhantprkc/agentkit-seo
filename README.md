@@ -1,16 +1,17 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/banners/vitaecontext/vitaecontext-light.png" alt="VitaeContext — Keep your career context. Reuse it across AI." width="90%" />
+  <img src=".assets/image/banners/vitaecontext/vitaecontext-light.png" alt="VitaeContext — Keep your career context. Reuse it across AI." width="90%" />
 </p>
 
 <p align="center">
   <strong>Keep your career context. Reuse it across AI.</strong>
 </p>
 
-<p align="center">VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills for turning that context into grounded professional work.</p>
+<p align="center">VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills and a Model Context Protocol (MCP) server for turning that context into grounded professional work.</p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/vitaecontext"><img src="https://img.shields.io/npm/v/vitaecontext?style=flat-square&logo=npm&color=CB3837" alt="npm version" /></a>
   <a href="#modules"><img src="https://img.shields.io/badge/agent_skills-8-2563EB?style=flat-square" alt="8 agent skills" /></a>
+  <a href="#mcp-server"><img src="https://img.shields.io/badge/mcp_server-2024--11--05-0EA5E9?style=flat-square" alt="MCP Server" /></a>
   <a href="https://github.com/vitaecontext/vitaecontext/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/vitaecontext/vitaecontext/validate.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white&label=build" alt="build status" /></a>
   <a href="https://github.com/vitaecontext/vitaecontext/stargazers"><img src="https://img.shields.io/github/stars/vitaecontext/vitaecontext?style=flat-square&logo=github&label=stars" alt="GitHub stars" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/github/license/vitaecontext/vitaecontext?style=flat-square&label=license" alt="MIT license" /></a>
@@ -21,7 +22,7 @@
   <a href="#why-vitaecontext">Why</a> •
   <a href="#how-it-works">How it works</a> •
   <a href="#quick-start">Quick start</a> •
-  <a href="#set-up-with-an-agent">Agent setup</a> •
+  <a href="#mcp-server">MCP Server</a> •
   <a href="#vitaegraph">VitaeGraph</a> •
   <a href="#modules">Modules</a> •
   <a href="#install">Install</a> •
@@ -46,7 +47,7 @@ The goal is simple:
 - Explain professional context once instead of rebuilding it in every chat.
 - Keep facts, goals, constraints, proof links, and claims to avoid in one reusable file.
 - Adapt the same evidence to each platform without turning positioning into invention.
-- Reuse the workflow across supported AI coding agents.
+- Reuse the workflow across supported AI coding agents via standard Agent Skills or a stateless MCP server.
 
 ### The context layer before career automation
 
@@ -57,29 +58,17 @@ VitaeContext sits one logical layer before those systems. It helps create and ma
 ## How it works
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/public-visuals/vitaecontext/basic-workflow.png" alt="VitaeContext workflow: scattered career material becomes a Career Context file, passes through VitaeContext platform skills, and produces grounded professional outputs" width="100%" />
+  <img src=".assets/image/public-visuals/vitaecontext/basic-workflow.png" alt="VitaeContext workflow: scattered career material becomes a Career Context file, passes through VitaeContext platform skills, and produces grounded professional outputs" width="100%" />
 </p>
 
 1. **Gather the raw material.** Start with CVs, profile sections, GitHub and portfolio links, exports, screenshots, and project notes.
 2. **Create the Career Context file with VitaeContext.** Give the raw material to an AI agent and invoke `vitaecontext-build`. The skill guides the agent in organizing the material into one private Markdown file containing verified facts, stated goals, constraints, proof links, and evidence boundaries.
-3. **Load one focused skill.** Use the LinkedIn, GitHub, CV/ATS, web portfolio, or X/Twitter module for the surface being improved.
+3. **Load one focused skill or query via MCP.** Use the LinkedIn, GitHub, CV/ATS, web portfolio, or X/Twitter module for the surface being improved.
 4. **Produce grounded work.** Get an audit, rewrite, patch proposal, or action plan based on the supplied context and platform guidance.
 
 The Career Context file supplies facts and direction. Platform skills supply formatting, discoverability guidance, and channel-specific constraints. They do not become a second source of truth.
 
-### Use it in any AI conversation
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/public-visuals/vitaecontext/workflow-use-case.png" alt="A career task is completed by attaching a Career Context file to any AI chat or agent and asking for a grounded draft" width="100%" />
-</p>
-
-The Career Context file is not limited to VitaeContext modules. Attach it to any AI chat, agent, or career system that accepts supplied context, then describe the current task. It can ground application answers, professional messages, emails, interview preparation, and other career-related drafts without requiring the same background to be explained again.
-
-### Why grounding matters
-
-Repeated rewriting can make copy sound more confident while moving it farther from the available evidence. VitaeContext instructs agents to preserve supported claims, separate goals from verified experience, and flag missing evidence before stronger positioning is used.
-
-It does not promise automatic fact-checking or guaranteed platform results. It provides the context structure, evidence rules, current platform knowledge, and self-review workflow agents need to produce more consistent work.
+---
 
 ## Quick start
 
@@ -137,25 +126,51 @@ npx vitaecontext context validate ~/.vitaecontext/name-surname-career-context.md
 npx vitaecontext context summary ~/.vitaecontext/name-surname-career-context.md --for github --output /tmp/github-context.md
 ```
 
-`context validate --json` emits machine-readable diagnostics. It checks the document contract and internal consistency; it does not authenticate whether a real-world claim is true. The older `template context` command remains available when the longer guided worksheet is preferable.
-
 ---
 
+## MCP Server
+
+[VitaeContext MCP](./mcp/README.md) provides a stateless Model Context Protocol interface adhering to version `2024-11-05`.
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/banners/vitaegraph/vitaegraph-banner-light.png" alt="VitaeGraph by VitaeContext" width="80%" />
+  <img src=".assets/image/public-visuals/mcp/mcp-workflow.png" alt="VitaeContext MCP: Stateless Model Context Protocol bridge between coding workspaces and private career facts" width="100%" />
 </p>
+
+By registering `vitaecontext-mcp` with your AI coding tool, agents across all repositories can read your private Career Context and VitaeGraph without copying career files into your codebase.
+
+```bash
+# Direct MCP stdio execution
+npx -y vitaecontext-mcp
+```
+
+### Client configuration
+
+Add to your tool's MCP configuration (e.g. `claude_desktop_config.json`, Cursor Settings, or Windsurf config):
+
+```json
+{
+  "mcpServers": {
+    "vitaecontext": {
+      "command": "npx",
+      "args": ["-y", "vitaecontext-mcp"]
+    }
+  }
+}
+```
+
+See [mcp/README.md](./mcp/README.md) and [mcp/config-examples/](./mcp/config-examples/) for complete setup instructions across Claude Desktop, Claude Code, Cursor, Windsurf, Roo Code, Antigravity, IBM Bob, and Grok.
+
+---
 
 ## VitaeGraph
 
 [VitaeGraph](./vitaegraph/README.md) is VitaeContext's deeper structured-memory layer, not a separate product. Use the Career Context file for compact, repeated facts and quick grounded drafts. Use VitaeGraph when an agent needs detailed records for projects, roles, degrees, courses, thesis work, certifications, awards, publications, and the relationships between them.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/public-visuals/vitaegraph/vitaegraph-diff.png" alt="Comparison between the compact Career Context file for fast facts and VitaeGraph for deep hierarchical records" width="100%" />
+  <img src=".assets/image/public-visuals/vitaegraph/vitaegraph-diff.png" alt="Comparison between the compact Career Context file for fast facts and VitaeGraph for deep hierarchical records" width="100%" />
 </p>
 
-Its root directory is an independently readable product entrypoint containing the format specification, schema, graph model, and canonical templates. The skill inventories supplied material first, then completes domain-specific workflows. Markdown remains canonical; generated JSON files are rebuildable local indexes.
-
-The runtime selects create, deepen, maintain, validate, index, retrieve, or migrate mode before loading node-specific context. Destructive and many-record changes are previewed, stable IDs survive path changes, and `visibility: public` never acts as automatic publication consent.
+Its root directory is an independently readable product entrypoint containing the format specification, schema, graph model, and canonical templates. Markdown remains canonical; generated JSON files are rebuildable local indexes.
 
 ```text
 ~/.vitaecontext/
@@ -171,8 +186,6 @@ npx vitaecontext graph validate
 npx vitaecontext graph index
 ```
 
-Pass `--root /path/to/custom-vitaegraph` to use that exact directory. Indexing creates deterministic `graph.json`, `search-index.json`, and `diagnostics.json` under `.generated/`. Markdown remains canonical. The CLI does not overwrite a non-empty graph without `--force`, and provider or npm exports never include user workspace data.
-
 ---
 
 ## Modules
@@ -182,24 +195,14 @@ VitaeContext ships one compact-context module, VitaeGraph, and five platform mod
 | Goal | Module | Public playbook |
 | --- | --- | --- |
 | Build the reusable Career Context layer | [`vitaecontext-build`](./hub/context-builder/README.md) | [Context Builder](https://vitaecontext.github.io/playbooks/context-builder/) |
-| Build a detailed local career knowledge graph | [`vitaecontext-vitaegraph`](./.skills/agent-skill/vitaecontext-vitaegraph/SKILL.md) | [VitaeGraph specification and templates](./vitaegraph/README.md) |
+| Build a detailed local career knowledge graph | [`vitaecontext-vitaegraph`](./skills/vitaecontext-vitaegraph/SKILL.md) | [VitaeGraph specification and templates](./vitaegraph/README.md) |
 | Improve GitHub profile and repository discoverability | [`vitaecontext-github`](./hub/github/README.md) | [GitHub optimization](https://vitaecontext.github.io/playbooks/github/) |
 | Improve LinkedIn structure, search visibility, and proof | [`vitaecontext-linkedin`](./hub/linkedin/README.md) | [LinkedIn optimization](https://vitaecontext.github.io/playbooks/linkedin/) |
 | Tailor a CV or resume for ATS parsing and recruiter readability | [`vitaecontext-cv`](./hub/cv-ats/README.md) | [CV and ATS optimization](https://vitaecontext.github.io/playbooks/cv-ats/) |
 | Improve portfolio crawlability, SEO, and AI readability | [`vitaecontext-portfolio`](./hub/web-portfolio/README.md) | [Web portfolio optimization](https://vitaecontext.github.io/playbooks/web-portfolio/) |
 | Improve X/Twitter positioning and posting strategy | [`vitaecontext-x`](./hub/x-twitter/README.md) | [X/Twitter optimization](https://vitaecontext.github.io/playbooks/x-twitter/) |
 
-Typical outputs include prioritized audits, evidence-backed rewrites, ATS-safe CV recommendations, GitHub README and repository fixes, LinkedIn section improvements, portfolio patches, and action plans ranked by impact and missing evidence.
-
-The GitHub skill also includes a tokenless public-profile fetcher. It produces bounded Markdown and JSON reports from the unauthenticated GitHub API, public profile HTML, and raw README files; adds repository evaluation metadata such as topics, default branch, license, and activity timestamps; and reports extraction uncertainty. Reports use a unique temporary directory by default so agent runs do not write into the current repository.
-
-## Who it is for
-
-- Developers preparing for a job search, promotion, or stronger public proof of work.
-- Students turning projects into credible portfolio evidence.
-- Founders and freelancers aligning their public professional presence.
-- Agents that need structured personal context before editing career assets.
-- Maintainers who want portable skills across multiple AI coding environments.
+---
 
 ## Install
 
@@ -219,6 +222,11 @@ Supported providers:
 | `gemini-cli` | `~/.gemini/extensions/vitaecontext/` | Namespaced commands such as `/vitaecontext:linkedin` |
 | `antigravity` | `~/.gemini/antigravity-cli/plugins/vitaecontext/` | Gemini-compatible plugin layout |
 | `opencode` | `~/.config/opencode/skills/` plus command wrappers | Native skill loading and flat command wrappers |
+| `cursor` | `.cursor/skills/` | Native Cursor Agent Skills |
+| `windsurf` | `.windsurf/skills/` | Native Windsurf Cascade Skills |
+| `roo-code` | `.roo/skills/` | Native Roo Code / Cline Skills |
+| `ibm-bob` | `.ibm/skills/` | IBM Bob / watsonx Code Assistant Skills |
+| `grok` | `.grok/skills/` | xAI Grok Agent Skills |
 
 For Claude Code, the skills are also available through the plugin marketplace:
 
@@ -227,17 +235,11 @@ For Claude Code, the skills are also available through the plugin marketplace:
 /plugin install vitaecontext@vitaecontext
 ```
 
-The repository also ships a native Codex plugin marketplace under `.agents/plugins/`. After cloning the repository, add that marketplace and install the plugin:
-
-```bash
-codex plugin marketplace add .agents/plugins
-codex plugin add vitaecontext@vitaecontext
-```
-
 Useful package commands:
 
 ```bash
 npx vitaecontext version
+npx vitaecontext mcp
 npx vitaecontext update
 npx vitaecontext doctor
 npx vitaecontext list providers
@@ -245,61 +247,24 @@ npx vitaecontext list skills
 npx vitaecontext context init
 npx vitaecontext context validate ~/.vitaecontext/career-context.md
 npx vitaecontext context summary ~/.vitaecontext/career-context.md --for cv
+npx vitaecontext graph init
+npx vitaecontext graph validate
+npx vitaecontext graph index
 ```
 
-`update` checks the npm registry only when invoked. With `--provider <provider>`, it reads the installed provider manifest and compares the installed skill version:
-
-```bash
-npx vitaecontext@latest update --provider codex
-```
-
-Remove an install using the same provider and destination flags used during installation:
-
-```bash
-npx vitaecontext uninstall --provider codex
-```
-
-`uninstall` reads `vitaecontext-install.json` and removes only the VitaeContext files recorded in that manifest. Use `--dry-run` to preview the removal.
-
-Install directly from GitHub without cloning the repository:
-
-```bash
-npx github:vitaecontext/vitaecontext install --provider codex
-```
-
-Use an explicit destination for non-default provider locations:
-
-```bash
-npx vitaecontext install --provider gemini-cli --target-dir /custom/path/vitaecontext
-```
-
-Each installation writes a `vitaecontext-install.json` manifest containing its package version, provider, installed skills, commands, and target paths.
-
-## Invocation
-
-Provider invocation varies. The stable contract is the shared skill name or provider command wrapper.
-
-| Provider | Example |
-| --- | --- |
-| Codex | `$vitaecontext-github` |
-| Claude Code | `Use the vitaecontext-linkedin skill to audit my LinkedIn profile.` |
-| Gemini CLI | `/vitaecontext:github` |
-| Antigravity CLI | `Use the installed vitaecontext-github plugin skill to audit my GitHub profile.` |
-| OpenCode | `/vitaecontext-github` |
-| Portable skill folder | `Use the SKILL.md in vitaecontext-portfolio to audit my portfolio site.` |
+---
 
 ## What is inside
 
-This repository keeps human guidance, runtime skills, provider adapters, and packaging separate:
+This repository keeps human guidance, runtime skills, provider adapters, MCP, and packaging separate:
 
 - [`hub/`](./hub/) contains public playbooks, templates, examples, and source notes.
 - [`vitaegraph/`](./vitaegraph/) contains the public VitaeGraph specification, schemas, and canonical artifact templates.
-- [`.skills/agent-skill/`](./.skills/agent-skill/) contains the canonical portable skill source.
-- [`.skills/export/`](./.skills/export/) contains the install, export, doctor, Career Context, VitaeGraph, and template CLI.
-- [`.skills/providers/`](./.skills/providers/) contains thin provider-specific adapters.
+- [`skills/`](./skills/) contains the canonical portable standard Agent Skills.
+- [`src/`](./src/) and [`bin/`](./bin/) contain the core engine, CLI, and stateless MCP server.
+- [`providers/`](./providers/) contains thin provider-specific adapters.
+- [`mcp/`](./mcp/) contains Model Context Protocol documentation, client configs, and protocol contracts.
 - [`llms.txt`](./llms.txt) and [`llms-full.txt`](./llms-full.txt) expose the project map and wiki bundle to LLM tools.
-
-One canonical skill source is exported into each provider layout. Runtime wiki entries give agents source-aware platform constraints, confidence labels, known failure modes, and evidence rules without loading the whole knowledge graph for every task.
 
 Read [DESIGN.md](./DESIGN.md) for the system design and [the architecture map](./.assets/docs/architecture-map.md) for repository ownership and edit boundaries.
 
@@ -309,6 +274,7 @@ Read [DESIGN.md](./DESIGN.md) for the system design and [the architecture map](.
 - [Fictional five-minute demo](./.assets/docs/fictional-end-to-end-demo.md) shows raw material, validated context, a bounded packet, and a grounded task brief without publishing real career data.
 - [End-to-end demos](./.assets/docs/end-to-end-workflows.md) provides sample inputs, prompts, and expected deliverables.
 - [Public playbooks](./hub/) document the human-readable methodology for each module.
+- [Model Context Protocol](./mcp/README.md) details cross-project MCP integration.
 - [Maintaining](./MAINTAINING.md) covers source refresh, wiki maintenance, validation, and releases.
 - [Contributing](./CONTRIBUTING.md) explains how to propose ideas, report issues, and open pull requests.
 - [Contributing instructions](./AGENTS.md) define repository rules for coding agents.

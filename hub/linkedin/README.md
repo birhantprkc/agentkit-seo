@@ -85,4 +85,4 @@ When an AI agent is tasked with optimizing a user's LinkedIn profile:
 
 ---
 
-Runtime skill: [.skills/agent-skill/vitaecontext-linkedin/SKILL.md](../../.skills/agent-skill/vitaecontext-linkedin/SKILL.md). Source notes: [sources.md](./sources.md).
+Runtime skill: [skills/vitaecontext-linkedin/SKILL.md](../../skills/vitaecontext-linkedin/SKILL.md). Source notes: [sources.md](./sources.md).

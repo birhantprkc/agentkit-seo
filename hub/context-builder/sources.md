@@ -39,4 +39,4 @@ No clean official external source was found for career-specific context-file sch
 
 ---
 
-See also: [Context Builder](./README.md) and [runtime knowledge](../../.skills/agent-skill/vitaecontext-build/wiki/knowledge.md).
+See also: [Context Builder](./README.md) and [runtime knowledge](../../skills/vitaecontext-build/wiki/knowledge.md).

@@ -70,4 +70,4 @@ When an AI agent is asked to work with a Career Context file:
 
 ---
 
-Runtime skill: [.skills/agent-skill/vitaecontext-build/SKILL.md](../../.skills/agent-skill/vitaecontext-build/SKILL.md). Source notes: [sources.md](./sources.md).
+Runtime skill: [skills/vitaecontext-build/SKILL.md](../../skills/vitaecontext-build/SKILL.md). Source notes: [sources.md](./sources.md).

@@ -67,4 +67,4 @@ Agents must route to the specific file needed for the task at hand. Do not load 
 
 ---
 
-Runtime skill: [.skills/agent-skill/vitaecontext-x/SKILL.md](../../.skills/agent-skill/vitaecontext-x/SKILL.md). Source notes: [sources.md](./sources.md).
+Runtime skill: [skills/vitaecontext-x/SKILL.md](../../skills/vitaecontext-x/SKILL.md). Source notes: [sources.md](./sources.md).

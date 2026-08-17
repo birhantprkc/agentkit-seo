@@ -73,4 +73,4 @@ When an AI agent is tasked with optimizing a user's CV:
 
 ---
 
-Runtime skill: [.skills/agent-skill/vitaecontext-cv/SKILL.md](../../.skills/agent-skill/vitaecontext-cv/SKILL.md). Source notes: [sources.md](./sources.md).
+Runtime skill: [skills/vitaecontext-cv/SKILL.md](../../skills/vitaecontext-cv/SKILL.md). Source notes: [sources.md](./sources.md).

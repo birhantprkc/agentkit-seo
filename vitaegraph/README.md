@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/banners/vitaegraph/vitaegraph-banner-light.png" alt="VitaeGraph by VitaeContext" width="90%" />
+  <img src="../.assets/image/banners/vitaegraph/vitaegraph-banner-light.png" alt="VitaeGraph by VitaeContext" width="90%" />
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@ This directory is the self-contained product entrypoint for the VitaeGraph forma
 VitaeGraph is optional. It complements the compact Career Context file; it does not replace it.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/public-visuals/vitaegraph/vitaegraph-structure.png" alt="VitaeGraph converts raw career material into hierarchical Markdown records, graph relationships, and rebuildable local indexes for selective agent retrieval" width="100%" />
+  <img src="../.assets/image/public-visuals/vitaegraph/vitaegraph-structure.png" alt="VitaeGraph converts raw career material into hierarchical Markdown records, graph relationships, and rebuildable local indexes for selective agent retrieval" width="100%" />
 </p>
 
 ## Module at a glance
@@ -70,8 +70,8 @@ The VitaeGraph subsystem is deliberately separated into three repository layers:
 | Layer | Location | Responsibility |
 | --- | --- | --- |
 | Product contract | [`vitaegraph/`](./) | Public specification, schema, graph model, and canonical templates |
-| Runtime skill | [`../.skills/agent-skill/vitaecontext-vitaegraph/`](../.skills/agent-skill/vitaecontext-vitaegraph/) | Agent workflow, domain-specific enrichment, and retrieval guidance |
-| CLI implementation | [`../.skills/export/lib/vitaegraph/`](../.skills/export/lib/vitaegraph/) | Initialization, parsing, validation, and deterministic indexing |
+| Runtime skill | [`../skills/vitaecontext-vitaegraph/`](../skills/vitaecontext-vitaegraph/) | Agent workflow, domain-specific enrichment, and retrieval guidance |
+| CLI implementation | [`../src/vitaegraph/`](../src/vitaegraph/) | Initialization, parsing, validation, and deterministic indexing |
 
 Inside this folder, the pieces are intentionally small:
 
@@ -107,7 +107,7 @@ Private user graphs do not belong in any of these locations. The default workspa
 The two artifacts are independently usable. Either may contain an optional link to the other when the user wants that connection.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/vitaecontext/vitaecontext/main/.assets/image/public-visuals/vitaegraph/vitaegraph-diff.png" alt="Comparison between the compact Career Context file for fast facts and VitaeGraph for deep hierarchical records" width="100%" />
+  <img src="../.assets/image/public-visuals/vitaegraph/vitaegraph-diff.png" alt="Comparison between the compact Career Context file for fast facts and VitaeGraph for deep hierarchical records" width="100%" />
 </p>
 
 ## Install
@@ -123,7 +123,7 @@ npx vitaecontext graph init
 For local repository development, invoke the same implementation from the checkout:
 
 ```bash
-node .skills/export/scripts/vitaecontext.mjs graph init
+node bin/vitaecontext.mjs graph init
 ```
 
 Installing VitaeContext for a supported agent provider also installs the separate `vitaecontext-vitaegraph` runtime skill. The skill builds and deepens graph content; the CLI performs deterministic filesystem operations and checks.
@@ -392,5 +392,5 @@ These boundaries keep the MVP local, inspectable, provider-portable, and compati
 - [`schema/record-schema.json`](schema/record-schema.json): record frontmatter schema.
 - [`schema/graph-model.md`](schema/graph-model.md): deterministic generated artifacts and edge semantics.
 - [`templates/`](templates/): canonical Markdown starting points.
-- [`../.skills/agent-skill/vitaecontext-vitaegraph/SKILL.md`](../.skills/agent-skill/vitaecontext-vitaegraph/SKILL.md): portable agent workflow.
+- [`../skills/vitaecontext-vitaegraph/SKILL.md`](../skills/vitaecontext-vitaegraph/SKILL.md): portable agent workflow.
 - [`../DESIGN.md`](../DESIGN.md): relationship between VitaeGraph and the wider VitaeContext system.

@@ -78,6 +78,6 @@ When an AI agent is tasked with optimizing a user's GitHub presence:
 
 ---
 
-Runtime skill: [.skills/agent-skill/vitaecontext-github/SKILL.md](../../.skills/agent-skill/vitaecontext-github/SKILL.md). Source notes: [sources.md](./sources.md).
+Runtime skill: [skills/vitaecontext-github/SKILL.md](../../skills/vitaecontext-github/SKILL.md). Source notes: [sources.md](./sources.md).
 
 *Next step: Understand the search engine in [GitHub code search and Blackbird](./algorithm-blackbird.md).*
