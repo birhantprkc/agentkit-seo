@@ -48,7 +48,7 @@ jobs:
 
       - name: Install compatibility package dependencies
         working-directory: packages/agentkit-seo-compat
-        run: npm ci --ignore-scripts
+        run: npm install --no-save --install-links ../../
 
       - name: Test AgentKit SEO compatibility forwarding
         working-directory: packages/agentkit-seo-compat

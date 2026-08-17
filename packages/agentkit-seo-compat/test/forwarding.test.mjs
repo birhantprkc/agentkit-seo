@@ -17,7 +17,7 @@ test("legacy command warns and forwards to VitaeContext", () => {
 
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stderr, /renamed to 'vitaecontext'/);
-  assert.match(result.stdout, /^vitaecontext 2\.0\.0/m);
+  assert.match(result.stdout, /^vitaecontext \d+\.\d+\.\d+/m);
 });
 
 test("legacy command preserves a failing exit status", () => {
