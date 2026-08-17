@@ -4,9 +4,10 @@ Follow the repository map in `.assets/docs/architecture-map.md` before suggestin
 
 ## Repository model
 
-- `.skills/agent-skill/` is the canonical portable skill source.
-- `.skills/providers/` contains provider adapters only.
-- `.skills/export/` contains the CLI used for export, install, doctor, version, and template commands.
+- `skills/` is the canonical portable Agent Skills source.
+- `providers/` contains provider adapters only.
+- `src/` and `bin/` contain the core engine, CLI, and stateless MCP server.
+- `mcp/` contains Model Context Protocol documentation, configs, and schema contracts.
 - Human-readable Knowledge Hub docs live under `hub/`, such as `hub/github/`, `hub/linkedin/`, `hub/cv-ats/`, `hub/web-portfolio/`, and `hub/x-twitter/`.
 - `.assets/docs/STYLEGUIDE.md` defines Markdown conventions for docs, examples, templates, and references.
 
@@ -24,7 +25,7 @@ Prefer these checks when touching package behavior, provider output, or release 
 
 ```bash
 npm run validate
-node .skills/export/scripts/vitaecontext.mjs version
-node .skills/export/scripts/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
+node bin/vitaecontext.mjs version
+node bin/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
 npm pack --dry-run
 ```

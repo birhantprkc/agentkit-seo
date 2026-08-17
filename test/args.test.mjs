@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { parseFlags } from "../.skills/export/lib/args.mjs";
+import { parseFlags } from "../src/args.mjs";
 
 test("parseFlags reads value flags", () => {
   const flags = parseFlags(["--provider", "claude-code", "--target-dir", "/tmp/x"]);

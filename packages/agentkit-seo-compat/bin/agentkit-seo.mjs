@@ -10,9 +10,7 @@ const packageRoot = path.dirname(
 );
 const cliPath = path.join(
   packageRoot,
-  ".skills",
-  "export",
-  "scripts",
+  "bin",
   "vitaecontext.mjs"
 );
 

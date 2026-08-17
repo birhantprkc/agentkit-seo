@@ -8,8 +8,8 @@ Keep the methodology portable and the packaging thin.
 
 The reusable skill logic lives in:
 
-- `.skills/agent-skill/vitaecontext/`
-- `.skills/agent-skill/vitaecontext-*`
+- `skills/vitaecontext/`
+- `skills/vitaecontext-*`
 
 These shared skills should contain:
 
@@ -20,7 +20,7 @@ These shared skills should contain:
 
 ## Provider adapters
 
-The provider directories in `.skills/` should only describe or generate:
+The provider directories in `providers/` should only describe or generate:
 
 - install targets
 - wrapper commands
@@ -30,7 +30,7 @@ They should not become alternate copies of the platform methodology.
 
 ## Packaging recommendation
 
-1. Keep editing the shared skills in-repo.
+1. Keep editing the shared skills in-repo under `skills/`.
 2. Keep each shared skill self-contained through `SKILL.md`, `references/`, and `agents/openai.yaml`.
 3. Generate or copy provider-specific install artifacts from that shared source.
 4. Ship the exact same shared skill names across providers whenever possible.
@@ -38,7 +38,7 @@ They should not become alternate copies of the platform methodology.
 
 ## Distribution recommendation
 
-Treat the installable artifact as the shared skill bundle, not as the full repository. The full repo remains useful for authoring, review, and source traceability, but the runtime package should be able to travel with only the `.skills/agent-skill/` content plus the relevant provider adapter.
+Treat the installable artifact as the shared skill bundle, not as the full repository. The full repo remains useful for authoring, review, and source traceability, but the runtime package should be able to travel with only the `skills/` content plus the relevant provider adapter.
 
 ## CLI and provider contract
 

@@ -54,15 +54,15 @@ Different Markdown file classes use different schemas. Do not force one schema o
 | File class | Examples | Required shape |
 | --- | --- | --- |
 | Editorial Knowledge Hub docs | `hub/<module>/*.md` | Hidden metadata, one H1, summary blockquote, numbered H2 sections, optional footer links |
-| Runtime skill entrypoints | `.skills/agent-skill/*/SKILL.md` | Agent Skills frontmatter with `name` and `description`, then concise procedures |
-| Runtime references | `.skills/agent-skill/*/references/*.md` | Lean Markdown with one H1 and focused procedural sections |
-| Runtime wiki entries | `.skills/agent-skill/*/wiki/*.md` | LLM wiki metadata, one H1 matching `title`, confidence labels, review dates, source status, conditional-load sections |
-| Provider adapter notes | `.skills/providers/*/install.md` | Lean install-target and provider-behavior notes |
+| Runtime skill entrypoints | `skills/*/SKILL.md` | Agent Skills frontmatter with `name` and `description`, then concise procedures |
+| Runtime references | `skills/*/references/*.md` | Lean Markdown with one H1 and focused procedural sections |
+| Runtime wiki entries | `skills/*/wiki/*.md` | LLM wiki metadata, one H1 matching `title`, confidence labels, review dates, source status, conditional-load sections |
+| Provider adapter notes | `providers/*/install.md` | Lean install-target and provider-behavior notes |
 | Public README | `README.md` | GitHub-facing overview, exempt from frontmatter and the hub template |
 | Maintainer docs | `.assets/docs/*.md` | Practical maintainer notes, frontmatter optional |
 | Templates and examples | `templates/*.md`, `examples/*.md`, module template folders | May contain placeholder structure needed by the artifact |
 
-Runtime methodology belongs in `.skills/agent-skill/`. Human-readable methodology belongs in `hub/`. Provider notes stay thin and adapter-specific.
+Runtime methodology belongs in `skills/`. Human-readable methodology belongs in `hub/`. Provider notes under `providers/` stay thin and adapter-specific.
 
 ## 5. Editorial Knowledge Hub template
 
@@ -207,9 +207,8 @@ Before editing:
 
 1. Read this file.
 2. Read `.assets/docs/architecture-map.md`.
-3. Read `.skills/architecture.md` before changing runtime skills, providers, export behavior, or install behavior.
-4. Read only relevant platform files.
-5. Use `agent_priority: high` files as mandatory context for the relevant module.
+3. Read only relevant platform files.
+4. Use `agent_priority: high` files as mandatory context for the relevant module.
 
 When generating or editing Markdown:
 

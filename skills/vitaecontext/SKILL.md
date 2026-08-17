@@ -88,7 +88,7 @@ For broad requests with no clear surface:
 
 - Do not load every module by default.
 - Do not invent platform behavior that the hub has explicitly marked as uncertain or disputed.
-- Do not rewrite the shared methodology in provider adapter folders. Keep the portable source of truth in `.skills/agent-skill/`.
+- Do not rewrite the shared methodology in provider adapter folders. Keep the portable source of truth in `skills/`.
 - When advice depends on current platform capabilities, paid tiers, ranking behavior, product limits, or provider support, verify with current official sources when tools allow it or label the claim as historical, disputed, or inferred.
 - For cross-platform outputs, label major claims as `Verified`, `From context`, `From supplied source`, `Official/current source`, `Inference`, `Needs evidence`, or `Inaccessible` when the source status could affect the recommendation.
 

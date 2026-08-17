@@ -6,7 +6,7 @@ import path from "node:path";
 import { test } from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
-const cli = path.join(repoRoot, ".skills", "export", "scripts", "vitaecontext.mjs");
+const cli = path.join(repoRoot, "bin", "vitaecontext.mjs");
 const example = path.join(repoRoot, "hub", "context-builder", "examples", "alex-morgan-fictional-career-context.md");
 
 test("context CLI initializes the private default path", () => {

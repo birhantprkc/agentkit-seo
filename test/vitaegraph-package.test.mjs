@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
 
-import { loadConfig } from "../.skills/export/lib/config.mjs";
-import { packageFileIncludes } from "../.skills/export/lib/filesystem.mjs";
+import { loadConfig } from "../src/config.mjs";
+import { packageFileIncludes } from "../src/filesystem.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
@@ -19,7 +19,7 @@ test("VitaeGraph is configured for every provider and npm packaging", () => {
   assert.equal(
     packageFileIncludes(
       packageJson.files,
-      ".skills/agent-skill/vitaecontext-vitaegraph/SKILL.md"
+      "skills/vitaecontext-vitaegraph/SKILL.md"
     ),
     true
   );

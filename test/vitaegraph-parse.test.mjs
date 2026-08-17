@@ -7,7 +7,7 @@ import { test } from "node:test";
 import {
   parseFrontmatter,
   parseVitaeGraph
-} from "../.skills/export/lib/vitaegraph/parse.mjs";
+} from "../src/vitaegraph/parse.mjs";
 
 test("parseFrontmatter reads scalars and lists", () => {
   const parsed = parseFrontmatter(`---

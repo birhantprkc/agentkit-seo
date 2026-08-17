@@ -8,10 +8,10 @@
 
 This repository has two jobs:
 
-- Maintain the canonical runtime skill package published as `vitaecontext`.
+- Maintain the canonical runtime skill package published as `vitaecontext` and its standalone MCP server `vitaecontext-mcp`.
 - Keep the human-readable project docs aligned with the runtime behavior.
 
-The most important rule is simple: edit the canonical source first, then update the adapter, docs, and validation surface that depend on it.
+The most important rule is simple: edit the canonical source in `skills/` first, then update the adapter, docs, and validation surface that depend on it.
 
 ## 2. Agent quick start
 
@@ -22,11 +22,10 @@ For a cold-start agent, use this read order:
 3. Read `.assets/docs/end-to-end-workflows.md` when the task needs demo prompts, sample inputs, and expected deliverables.
 4. Read `.assets/docs/current-status.md` to understand what is already live.
 5. Read `.assets/docs/STYLEGUIDE.md` before editing Markdown, docs, examples, or templates.
-6. Read `.skills/architecture.md` before changing runtime skills, provider adapters, export behavior, or install behavior.
-7. Read `.skills/agent-skill/vitaecontext/wiki/vitaecontext.md` when the task is broad, architectural, package-related, or about graph navigation.
-8. Read only the relevant module `SKILL.md`, `wiki/index.md`, `wiki/knowledge.md`, and `references/` files for the target platform.
-9. Make the smallest scoped edit that satisfies the task.
-10. Run the validation listed in the change map before proposing a commit or release.
+6. Read `skills/vitaecontext/wiki/vitaecontext.md` when the task is broad, architectural, package-related, or about graph navigation.
+7. Read only the relevant module `SKILL.md`, `wiki/index.md`, `wiki/knowledge.md`, and `references/` files for the target platform.
+8. Make the smallest scoped edit that satisfies the task.
+9. Run the validation listed in the change map before proposing a commit or release.
 
 Do not load every skill module by default. Route to one module unless the task is explicitly cross-platform.
 
@@ -37,31 +36,29 @@ Do not load every skill module by default. Route to one module unless the task i
 | Project overview | `README.md` | Public GitHub overview, problem narrative, install commands, module list, and links to release/privacy docs | Public package behavior, install flow, or project positioning changes |
 | Human-readable hub | `hub/` | Editorial playbooks, templates, examples, and source-traceable methodology for humans | Public playbook content, examples, templates, or source notes change |
 | VitaeGraph product subsystem | `vitaegraph/` | Independently readable product entrypoint with the public specification, schemas, graph model, and canonical templates for private user-side graphs | VitaeGraph artifact format or initialization templates change |
+| MCP server subsystem | `mcp/` | Model Context Protocol server docs, client configs, and schema specification | MCP server capabilities or protocol interface changes |
 | Maintainer docs | `.assets/docs/` | Internal project notes, status, style rules, and this architecture map | Maintainer-facing process or architecture changes |
-| Runtime skills | `.skills/agent-skill/` | Portable skill source, references, and wiki knowledge shipped to users | Skill behavior, routing, references, wiki entries, or module methodology changes |
-| Provider adapters | `.skills/providers/` | Provider-specific install notes, wrappers, manifests, and command templates | A provider needs different activation, layout, metadata, or wrapper commands |
-| Export CLI | `.skills/export/` | Install, export, doctor, version, Career Context, VitaeGraph, and template commands | Package behavior, install targets, generated layouts, or diagnostics change |
-| Gemini-compatible root mirror | `skills/`, `commands/`, `GEMINI.md`, `gemini-extension.json` | Generated root distribution layout for Gemini-compatible discovery | Regenerate from canonical source after runtime skill or command changes |
+| Runtime skills | `skills/` | Standard Agent Skills source, references, and wiki knowledge shipped to users | Skill behavior, routing, references, wiki entries, or module methodology changes |
+| Provider adapters | `providers/` | Provider-specific install notes, wrappers, manifests, and command templates | A provider needs different activation, layout, metadata, or wrapper commands |
+| Core engine & CLI | `src/`, `bin/` | Install, export, doctor, version, MCP, Career Context, VitaeGraph, and template commands | Package behavior, install targets, generated layouts, or diagnostics change |
 | Release automation | `.github/workflows/` | Validation and npm publication workflows | CI, release checks, package publication, or tag behavior changes |
 | Public release notes | `CHANGELOG.md` | User-facing release history | Any package-visible behavior changes |
 | Package metadata | `package.json` | npm package metadata, bin command, scripts, and version | CLI, dependencies, package files, scripts, or version changes |
 | Claude Code plugin marketplace | `.claude-plugin/marketplace.json`, `.claude-plugin/plugin.json` | `/plugin` install channel and plugin manifest, validated by `doctor` against `package.json` | Plugin metadata, marketplace listing, or version changes |
-| Codex plugin marketplace | `.agents/plugins/` | Repository marketplace, native plugin manifest, and generated mirror of the eight configured runtime skills | Codex plugin metadata or runtime skill source changes |
-| CLI unit tests | `test/` | Deterministic `node:test` suite for the export CLI library, run by `npm test` in CI | CLI library behavior in semver, arg parsing, package-file matching, install-root, or uninstall paths changes |
+| Codex plugin marketplace | `.agents/plugins/` | Repository marketplace, native plugin manifest, and generated mirror of the configured runtime skills | Codex plugin metadata or runtime skill source changes |
+| CLI unit tests | `test/` | Deterministic `node:test` suite for the CLI library and MCP server, run by `npm test` in CI | CLI or MCP behavior in semver, arg parsing, package-file matching, install-root, or uninstall paths changes |
 
 ## 4. Source-of-truth rules
 
-Runtime methodology belongs in `.skills/agent-skill/`.
+Runtime methodology belongs in `skills/`.
 
 Durable runtime knowledge that is too detailed for `SKILL.md` belongs in each skill's `wiki/` folder. Keep wiki entries conditional-load friendly and maintain their metadata so `vitaecontext doctor` can validate them.
 
-The runtime graph entrypoint is `.skills/agent-skill/vitaecontext/wiki/vitaecontext.md`. Use it to choose the correct module before loading detailed module wiki, reference, or hub files.
+The runtime graph entrypoint is `skills/vitaecontext/wiki/vitaecontext.md`. Use it to choose the correct module before loading detailed module wiki, reference, or hub files.
 
 Human-readable methodology belongs in `hub/`. Keep the root directory focused on project metadata and distribution entrypoints.
 
 Provider folders are adapters. Keep them thin. Do not copy full methodology into provider wrappers or install notes.
-
-The export CLI should generate or copy provider-facing layouts from the canonical skill source. Do not maintain a second full skill tree in a provider folder.
 
 The docs explain what exists. They do not replace runtime skill instructions.
 
@@ -73,14 +70,15 @@ Use this table to decide what to edit for common tasks.
 
 | Task | Primary files | Usually also update | Validation |
 | --- | --- | --- | --- |
-| Change a platform skill workflow | `.skills/agent-skill/vitaecontext-<module>/SKILL.md`, `.skills/agent-skill/vitaecontext-<module>/references/`, `.skills/agent-skill/vitaecontext-<module>/wiki/` | Related `README.md` module row, `.assets/docs/current-status.md`, `CHANGELOG.md` | `npm run validate` |
+| Change a platform skill workflow | `skills/vitaecontext-<module>/SKILL.md`, `skills/vitaecontext-<module>/references/`, `skills/vitaecontext-<module>/wiki/` | Related `README.md` module row, `.assets/docs/current-status.md`, `CHANGELOG.md` | `npm run validate` |
 | Change a human-readable playbook | `hub/<module>/` | Related runtime skill reference if behavior changes, `README.md`, `.assets/docs/current-status.md` | Link/path smoke check, `npm run validate` if runtime behavior changes |
-| Add a new skill module | `.skills/agent-skill/vitaecontext-<module>/` | `.skills/export/export-config.json`, provider wrappers, `README.md`, `.assets/docs/project.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | `npm run validate`, export all providers |
-| Change VitaeGraph behavior | `vitaegraph/`, `.skills/agent-skill/vitaecontext-vitaegraph/`, `.skills/export/lib/vitaegraph/` | Root routing, provider wrappers, mirrors, public docs, tests | VitaeGraph smoke tests, `npm run validate`, export all providers |
-| Change provider install behavior | `.skills/providers/<provider>/`, `.skills/export/export-config.json`, `.skills/export/scripts/vitaecontext.mjs` | Provider docs in `README.md`, `.skills/architecture.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | Provider install smoke test |
-| Change CLI commands | `.skills/export/scripts/vitaecontext.mjs`, `.skills/export/lib/<subsystem>/` | `README.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | CLI command smoke test, `npm run validate:package` |
-| Change Career Context lifecycle behavior | `.skills/export/lib/context/`, `.skills/agent-skill/vitaecontext-build/references/` | `README.md`, relevant examples/templates, `CHANGELOG.md` | Context CLI tests, fictional example validation |
-| Change runtime wiki graph or `llms.txt` files | `.skills/agent-skill/*/wiki/`, `llms.txt`, `llms-full.txt` | Generated root `skills/` mirror, `README.md`, `.assets/docs/current-status.md` | `npm run validate`, `npm pack --dry-run` |
+| Add a new skill module | `skills/vitaecontext-<module>/` | `src/export-config.json`, provider wrappers, `README.md`, `.assets/docs/project.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | `npm run validate`, export all providers |
+| Change VitaeGraph behavior | `vitaegraph/`, `skills/vitaecontext-vitaegraph/`, `src/vitaegraph/` | Root routing, provider wrappers, mirrors, public docs, tests | VitaeGraph smoke tests, `npm run validate`, export all providers |
+| Change MCP server behavior | `src/mcp/`, `mcp/`, `bin/vitaecontext-mcp.mjs` | `mcp/README.md`, `README.md`, `CHANGELOG.md` | `node --test test/mcp-server.test.mjs`, `npm run validate` |
+| Change provider install behavior | `providers/<provider>/`, `src/export-config.json`, `bin/vitaecontext.mjs` | Provider docs in `README.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | Provider install smoke test |
+| Change CLI commands | `bin/vitaecontext.mjs`, `src/<subsystem>/` | `README.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | CLI command smoke test, `npm run validate:package` |
+| Change Career Context lifecycle behavior | `src/context/`, `skills/vitaecontext-build/references/` | `README.md`, relevant examples/templates, `CHANGELOG.md` | Context CLI tests, fictional example validation |
+| Change runtime wiki graph or `llms.txt` files | `skills/*/wiki/`, `llms.txt`, `llms-full.txt` | `README.md`, `.assets/docs/current-status.md` | `npm run validate`, `npm pack --dry-run` |
 | Change packaging files | `package.json`, `.npmignore` if added later | `.github/workflows/npm-publish.yml`, `README.md`, `CHANGELOG.md` | `npm pack --dry-run` |
 | Prepare a release | `package.json`, provider manifests with explicit versions, `CHANGELOG.md`, `.assets/docs/current-status.md` | Git tag and GitHub release after validation | Full release checklist |
 | Change CI or publication | `.github/workflows/` | `.assets/docs/current-status.md`, release docs if behavior changed | GitHub Actions run on pushed branch/tag |
@@ -89,12 +87,17 @@ Use this table to decide what to edit for common tasks.
 
 | Provider | Runtime source | Adapter source | Installed shape |
 | --- | --- | --- | --- |
-| Shared bundle | `.skills/agent-skill/` | `.skills/export/export-config.json` | Portable folders with `SKILL.md` |
-| Claude Code | `.skills/agent-skill/` | [`.skills/providers/claude-code/install.md`](../../.skills/providers/claude-code/install.md) | Skills under `~/.claude/skills/` |
-| Codex | `.skills/agent-skill/` | [`.skills/providers/codex/install.md`](../../.skills/providers/codex/install.md) | Skills under `~/.agents/skills/` plus `CODEX_HOME/skills` or `~/.codex/skills/` |
-| Gemini CLI | `.skills/agent-skill/` | [`.skills/providers/gemini-cli/install.md`](../../.skills/providers/gemini-cli/install.md) | Extension under `~/.gemini/extensions/vitaecontext/` |
-| Antigravity CLI | `.skills/agent-skill/` | [`.skills/providers/antigravity/install.md`](../../.skills/providers/antigravity/install.md) | Plugin under `~/.gemini/antigravity-cli/plugins/vitaecontext/` |
-| OpenCode | `.skills/agent-skill/` | [`.skills/providers/opencode/install.md`](../../.skills/providers/opencode/install.md) | Skills plus flat command wrappers |
+| Shared bundle | `skills/` | `src/export-config.json` | Portable folders with `SKILL.md` |
+| Claude Code | `skills/` | [`providers/claude-code/install.md`](../../providers/claude-code/install.md) | Skills under `~/.claude/skills/` |
+| Codex | `skills/` | [`providers/codex/install.md`](../../providers/codex/install.md) | Skills under `~/.agents/skills/` plus `CODEX_HOME/skills` or `~/.codex/skills/` |
+| Gemini CLI | `skills/` | [`providers/gemini-cli/install.md`](../../providers/gemini-cli/install.md) | Extension under `~/.gemini/extensions/vitaecontext/` |
+| Antigravity CLI | `skills/` | [`providers/antigravity/install.md`](../../providers/antigravity/install.md) | Plugin under `~/.gemini/antigravity-cli/plugins/vitaecontext/` |
+| OpenCode | `skills/` | [`providers/opencode/install.md`](../../providers/opencode/install.md) | Skills plus flat command wrappers |
+| Cursor | `skills/` | [`providers/cursor/install.md`](../../providers/cursor/install.md) | Skills under `.cursor/skills/` |
+| Windsurf | `skills/` | [`providers/windsurf/install.md`](../../providers/windsurf/install.md) | Skills under `.windsurf/skills/` |
+| Roo Code | `skills/` | [`providers/roo-code/install.md`](../../providers/roo-code/install.md) | Skills under `.roo/skills/` |
+| IBM Bob | `skills/` | [`providers/ibm-bob/install.md`](../../providers/ibm-bob/install.md) | Skills under `.ibm/skills/` |
+| xAI Grok | `skills/` | [`providers/grok/install.md`](../../providers/grok/install.md) | Skills under `.grok/skills/` |
 
 Provider wrappers must route to the shared skill names:
 
@@ -111,49 +114,29 @@ Provider wrappers must route to the shared skill names:
 
 Before pushing a release tag:
 
-1. Set the new version in `package.json`, then keep the seven version-bearing files in sync (`doctor` fails on drift): `package.json`, `.claude-plugin/plugin.json`, the plugin entry in `.claude-plugin/marketplace.json`, `.agents/plugins/plugins/vitaecontext/.codex-plugin/plugin.json`, the root `gemini-extension.json`, and the two provider `gemini-extension.json` files. See [MAINTAINING.md](../../MAINTAINING.md#version-files-to-bump-on-release).
-2. Regenerate the Gemini mirror through the export CLI so the Gemini manifests pick up the new version.
-3. Move public changes from `CHANGELOG.md` `Unreleased` into the new version section.
-4. Update `.assets/docs/current-status.md` with the current package version and release list.
-5. Run `npm test` and `npm run validate`.
-6. Run CLI smoke tests for changed commands.
-7. Run provider export or install smoke tests for changed providers.
-8. Run `npm run check:codex-plugin` and `npm run validate:package`.
-9. Commit the release files.
-10. Create and push the matching annotated `vX.Y.Z` tag.
+1. Set the new version in `package.json`, then keep the version-bearing files in sync (`doctor` fails on drift): `package.json`, `.claude-plugin/plugin.json`, the plugin entry in `.claude-plugin/marketplace.json`, `.agents/plugins/plugins/vitaecontext/.codex-plugin/plugin.json`, the root `gemini-extension.json`, and the provider `gemini-extension.json` files. See [MAINTAINING.md](../../MAINTAINING.md#version-files-to-bump-on-release).
+2. Move public changes from `CHANGELOG.md` `Unreleased` into the new version section.
+3. Update `.assets/docs/current-status.md` with the current package version and release list.
+4. Run `npm test` and `npm run validate`.
+5. Run CLI smoke tests for changed commands.
+6. Run provider export or install smoke tests for changed providers.
+7. Run `npm run check:codex-plugin` and `npm run validate:package`.
+8. Commit the release files.
+9. Create and push the matching annotated `vX.Y.Z` tag.
 
 The npm publish workflow runs only after the tag is pushed.
 
-## 8. Agent operating rules
-
-Read `.assets/docs/STYLEGUIDE.md` before editing Markdown conventions.
-
-Read `.skills/architecture.md` before changing the skill or provider architecture.
-
-Read `.assets/docs/current-status.md` before recommending next work.
-
-Read `.skills/agent-skill/vitaecontext/wiki/vitaecontext.md` before broad graph, package, install, or module-routing work.
-
-Prefer narrow edits. Do not rewrite unrelated docs while touching a specific skill, provider, or CLI command.
-
-Keep generated or installed output out of commits unless the repository intentionally stores that artifact.
-
-The repo intentionally stores the root Gemini-compatible `skills/`, `commands/`, `GEMINI.md`, and `gemini-extension.json` mirror. Refresh those through the export/install tooling instead of hand-editing them.
-
-When changing package behavior, update both user-facing docs and maintainer status notes in the same branch.
-
-When changing provider behavior, test at least one generated or installed provider layout before release.
-
-## 9. Quick command reference
+## 8. Quick command reference
 
 ```bash
 npm run validate
-node .skills/export/scripts/vitaecontext.mjs version
-node .skills/export/scripts/vitaecontext.mjs doctor
-node .skills/export/scripts/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
-node .skills/export/scripts/vitaecontext.mjs install --provider codex --target-dir /tmp/vitaecontext-codex --force
-node .skills/export/scripts/vitaecontext.mjs install --provider gemini-cli --target-dir /tmp/vitaecontext-gemini --force
-node .skills/export/scripts/vitaecontext.mjs install --provider antigravity --target-dir /tmp/vitaecontext-antigravity --force
+node bin/vitaecontext.mjs version
+node bin/vitaecontext.mjs doctor
+node bin/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
+node bin/vitaecontext.mjs install --provider codex --target-dir /tmp/vitaecontext-codex --force
+node bin/vitaecontext.mjs install --provider cursor --target-dir /tmp/vitaecontext-cursor --force
+node bin/vitaecontext.mjs install --provider gemini-cli --target-dir /tmp/vitaecontext-gemini --force
+node bin/vitaecontext.mjs install --provider antigravity --target-dir /tmp/vitaecontext-antigravity --force
 npm pack --dry-run
 ```
 

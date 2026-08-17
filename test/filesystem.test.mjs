@@ -10,7 +10,7 @@ import {
   semverish,
   trimTrailingSlash,
   uniquePaths
-} from "../.skills/export/lib/filesystem.mjs";
+} from "../src/filesystem.mjs";
 
 test("semverish accepts release and prerelease versions", () => {
   assert.equal(semverish("1.0.0"), true);
@@ -50,9 +50,10 @@ test("uniquePaths dedupes resolved paths and drops empties", () => {
 });
 
 test("packageFileIncludes matches exact entries and parent directories", () => {
-  const files = [".skills/export", "hub", "README.md"];
+  const files = ["src", "skills", "hub", "README.md"];
   assert.equal(packageFileIncludes(files, "README.md"), true);
-  assert.equal(packageFileIncludes(files, ".skills/export/lib/doctor.mjs"), true);
+  assert.equal(packageFileIncludes(files, "src/doctor.mjs"), true);
   assert.equal(packageFileIncludes(files, "hub/github/README.md"), true);
-  assert.equal(packageFileIncludes(files, ".skills/agent-skill"), false);
+  assert.equal(packageFileIncludes(files, "skills/vitaecontext"), true);
+  assert.equal(packageFileIncludes(files, "unrelated"), false);
 });

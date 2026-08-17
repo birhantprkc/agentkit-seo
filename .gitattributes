@@ -2,14 +2,11 @@
 # The project methodology lives in Markdown docs, portable skills, and provider notes.
 *.md linguist-documentation=true
 .assets/docs/** linguist-documentation=true
-.skills/agent-skill/** linguist-documentation=true
-.skills/providers/**/*.md linguist-documentation=true
-context-builder/** linguist-documentation=true
-cv-ats/** linguist-documentation=true
-github/** linguist-documentation=true
-linkedin/** linguist-documentation=true
-web-portfolio/** linguist-documentation=true
-x-twitter/** linguist-documentation=true
+skills/** linguist-documentation=true
+providers/**/*.md linguist-documentation=true
+hub/** linguist-documentation=true
+mcp/**/*.md linguist-documentation=true
+vitaegraph/** linguist-documentation=true
 
 # LaTeX files are CV examples/templates, not the implementation language.
-cv-ats/**/*.tex linguist-documentation=true
+hub/cv-ats/**/*.tex linguist-documentation=true

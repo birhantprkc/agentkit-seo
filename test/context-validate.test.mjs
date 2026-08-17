@@ -4,8 +4,8 @@ import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
 
-import { parseContextDocument, validateContextFile } from "../.skills/export/lib/context/parse.mjs";
-import { summarizeContext } from "../.skills/export/lib/context/summary.mjs";
+import { parseContextDocument, validateContextFile } from "../src/context/parse.mjs";
+import { summarizeContext } from "../src/context/summary.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const fictionalExample = path.join(

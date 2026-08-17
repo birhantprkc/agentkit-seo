@@ -7,7 +7,7 @@ Thanks for considering a contribution. VitaeContext is open to improvements acro
 - Report reproducible bugs through the [bug report template](https://github.com/vitaecontext/vitaecontext/issues/new?template=bug_report.md).
 - Suggest a feature through the [feature request template](https://github.com/vitaecontext/vitaecontext/issues/new?template=feature_request.md).
 - Start a [GitHub Discussion](https://github.com/vitaecontext/vitaecontext/discussions) to explore an idea, ask a question, or get early feedback on a larger change.
-- Improve documentation, examples, source references, tests, skills, provider adapters, or the CLI.
+- Improve documentation, examples, source references, tests, skills, provider adapters, MCP server, or the CLI.
 - Open a pull request for a focused improvement. Small fixes do not need prior discussion.
 
 For a feature that changes the public workflow, adds a module, changes provider behavior, or needs substantial design work, open an issue or discussion first. It helps establish scope before implementation.
@@ -39,12 +39,11 @@ Before editing, read [AGENTS.md](./AGENTS.md). It links to the repository rules 
 
 - [Architecture map](./.assets/docs/architecture-map.md) for repository ownership and validation paths.
 - [Style guide](./.assets/docs/STYLEGUIDE.md) before editing Markdown, examples, templates, sources, or skills.
-- [Skill architecture](./.skills/architecture.md) before changing runtime skills, provider adapters, export behavior, or installation behavior.
 - [Maintaining VitaeContext](./MAINTAINING.md) for detailed knowledge, wiki, source, and generated-file workflows.
 
-Keep edits in their canonical layer. For example, runtime skill behavior belongs under `.skills/agent-skill/`, provider folders are thin adapters, and public methodology belongs under `hub/`.
+Keep edits in their canonical layer. For example, runtime skill behavior belongs under `skills/`, provider folders under `providers/` are thin adapters, and public methodology belongs under `hub/`.
 
-Do not commit private Career Context files, user career material, exports, screenshots, or generated install output. Do not hand-edit the generated `skills/`, `commands/`, or `llms-full.txt` files; use the documented generation flow instead.
+Do not commit private Career Context files, user career material, exports, screenshots, or generated install output.
 
 ## Pull requests
 
@@ -73,7 +72,7 @@ Also run these when applicable:
 
 ```bash
 # Provider packaging, runtime skills, or generated mirrors
-node .skills/export/scripts/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
+node bin/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export --force
 
 # Package contents
 npm pack --dry-run

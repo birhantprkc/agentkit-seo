@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
 
-import { validateVitaeGraph } from "../.skills/export/lib/vitaegraph/validate.mjs";
+import { validateVitaeGraph } from "../src/vitaegraph/validate.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 

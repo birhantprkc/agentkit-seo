@@ -400,5 +400,5 @@ Expected output:
 
 - [Getting started](./getting-started.md)
 - [Architecture map](./architecture-map.md)
-- [Root runtime wiki](../../.skills/agent-skill/vitaecontext/wiki/vitaecontext.md)
+- [Root runtime wiki](../../skills/vitaecontext/wiki/vitaecontext.md)
 - [Context Builder hub](../../hub/context-builder/README.md)

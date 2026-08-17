@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import { test } from "node:test";
 
-import { collectRemovals } from "../.skills/export/lib/uninstall.mjs";
+import { collectRemovals } from "../src/uninstall.mjs";
 
 const config = {
   skills: [{ name: "vitaecontext" }, { name: "vitaecontext-github" }],

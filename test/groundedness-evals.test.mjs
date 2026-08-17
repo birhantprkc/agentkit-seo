@@ -3,9 +3,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
 
+import { loadConfig } from "../src/config.mjs";
+
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const scenarios = JSON.parse(fs.readFileSync(path.join(repoRoot, "evals", "groundedness", "scenarios.json"), "utf8"));
-const config = JSON.parse(fs.readFileSync(path.join(repoRoot, ".skills", "export", "export-config.json"), "utf8"));
+const config = loadConfig(repoRoot);
 const skillSources = new Map(config.skills.map((skill) => [skill.name, path.join(repoRoot, skill.source, "SKILL.md")]));
 
 test("groundedness fixtures are unique, fictional, and anchored to shipped runtime contracts", () => {

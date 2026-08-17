@@ -61,28 +61,43 @@ jobs:
         run: npm run check:codex-plugin
 
       - name: Check CLI version command
-        run: node .skills/export/scripts/vitaecontext.mjs version
+        run: node bin/vitaecontext.mjs version
 
       - name: Export provider bundles
-        run: node .skills/export/scripts/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export-check --force
+        run: node bin/vitaecontext.mjs export --provider all --output /tmp/vitaecontext-export-check --force
 
       - name: Smoke install Codex bundle
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider codex --target-dir /tmp/vitaecontext-codex-install-check --force
+        run: node bin/vitaecontext.mjs install --provider codex --target-dir /tmp/vitaecontext-codex-install-check --force
 
       - name: Smoke install Gemini CLI bundle
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider gemini-cli --target-dir /tmp/vitaecontext-gemini-install-check --force
+        run: node bin/vitaecontext.mjs install --provider gemini-cli --target-dir /tmp/vitaecontext-gemini-install-check --force
 
       - name: Smoke install Antigravity CLI bundle
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider antigravity --target-dir /tmp/vitaecontext-antigravity-install-check --force
+        run: node bin/vitaecontext.mjs install --provider antigravity --target-dir /tmp/vitaecontext-antigravity-install-check --force
 
       - name: Smoke install Claude Code bundle
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider claude-code --target-dir /tmp/vitaecontext-claude-install-check --force
+        run: node bin/vitaecontext.mjs install --provider claude-code --target-dir /tmp/vitaecontext-claude-install-check --force
+
+      - name: Smoke install Cursor bundle
+        run: node bin/vitaecontext.mjs install --provider cursor --target-dir /tmp/vitaecontext-cursor-install-check --force
+
+      - name: Smoke install Windsurf bundle
+        run: node bin/vitaecontext.mjs install --provider windsurf --target-dir /tmp/vitaecontext-windsurf-install-check --force
+
+      - name: Smoke install Roo Code bundle
+        run: node bin/vitaecontext.mjs install --provider roo-code --target-dir /tmp/vitaecontext-roo-install-check --force
+
+      - name: Smoke install IBM Bob bundle
+        run: node bin/vitaecontext.mjs install --provider ibm-bob --target-dir /tmp/vitaecontext-ibm-install-check --force
+
+      - name: Smoke install Grok bundle
+        run: node bin/vitaecontext.mjs install --provider grok --target-dir /tmp/vitaecontext-grok-install-check --force
 
       - name: Smoke install OpenCode bundle and commands
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider opencode --project-root /tmp/vitaecontext-opencode-install-check --force
+        run: node bin/vitaecontext.mjs install --provider opencode --project-root /tmp/vitaecontext-opencode-install-check --force
 
       - name: Smoke install shared bundle
-        run: node .skills/export/scripts/vitaecontext.mjs install --provider shared --target-dir /tmp/vitaecontext-shared-install-check --force
+        run: node bin/vitaecontext.mjs install --provider shared --target-dir /tmp/vitaecontext-shared-install-check --force
 
       - name: Verify package contents
         run: npm run validate:package

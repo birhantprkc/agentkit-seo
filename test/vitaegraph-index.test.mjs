@@ -8,11 +8,11 @@ import {
   DEFAULT_VITAEGRAPH_ROOT,
   initializeVitaeGraph,
   resolveVitaeGraphRoot
-} from "../.skills/export/lib/vitaegraph/init.mjs";
+} from "../src/vitaegraph/init.mjs";
 import {
   buildVitaeGraphArtifacts,
   writeVitaeGraphArtifacts
-} from "../.skills/export/lib/vitaegraph/index.mjs";
+} from "../src/vitaegraph/index.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 

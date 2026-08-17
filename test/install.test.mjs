@@ -5,7 +5,7 @@ import { test } from "node:test";
 
 import fs from "node:fs";
 
-import { installProvider, resolveInstallRoot } from "../.skills/export/lib/install.mjs";
+import { installProvider, resolveInstallRoot } from "../src/install.mjs";
 
 test("resolveInstallRoot lets an explicit --target-dir win", () => {
   const root = resolveInstallRoot({ "target-dir": "/tmp/x" }, { target: ".claude/skills" }, "claude-code");
@@ -42,7 +42,7 @@ test("install preflight leaves no partial output when a later source is missing"
   fs.mkdirSync(path.join(sourceRoot, "first"));
   fs.writeFileSync(path.join(sourceRoot, "first", "SKILL.md"), "# first\n");
   const config = {
-    package: { name: "vitaecontext", version: "2.1.0" },
+    package: { name: "vitaecontext", version: "2.2.0" },
     skills: [
       { name: "first", source: "first" },
       { name: "missing", source: "missing" }
@@ -67,7 +67,7 @@ test("install preflight detects a command conflict before copying skills", () =>
   fs.mkdirSync(commandRoot, { recursive: true });
   fs.writeFileSync(path.join(commandRoot, "command.md"), "existing\n");
   const config = {
-    package: { name: "vitaecontext", version: "2.1.0" },
+    package: { name: "vitaecontext", version: "2.2.0" },
     skills: [{ name: "skill", source: "skill" }],
     providers: {
       tool: {
@@ -96,7 +96,7 @@ test("install rollback removes earlier copies when a later commit fails", () => 
   fs.writeFileSync(path.join(projectRoot, ".tool", "skills", "skill", "SKILL.md"), "# previous skill\n");
   fs.writeFileSync(path.join(projectRoot, ".tool", "blocked"), "not a directory\n");
   const config = {
-    package: { name: "vitaecontext", version: "2.1.0" },
+    package: { name: "vitaecontext", version: "2.2.0" },
     skills: [{ name: "skill", source: "skill" }],
     providers: {
       tool: {

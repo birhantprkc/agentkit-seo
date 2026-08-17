@@ -47,14 +47,13 @@ VitaeGraph is a separate private, multi-file career knowledge graph for deep hie
 
 ## 4. Runtime architecture
 
-VitaeContext uses four runtime-facing layers:
+VitaeContext uses four core repository layers:
 
 - `hub/`: human-readable playbooks, examples, templates, and source notes.
-- `.skills/agent-skill/`: canonical portable runtime skills.
-- `.skills/providers/`: provider-specific install notes, manifests, command wrappers, and extension metadata.
-- `.skills/export/`: CLI code for install, export, doctor, list, version, and template commands.
-
-The root `skills/`, `commands/`, `GEMINI.md`, and `gemini-extension.json` files are distribution artifacts for Gemini-compatible installs and gallery discovery. They are not the primary source of runtime methodology.
+- `skills/`: canonical portable standard Agent Skills.
+- `providers/`: provider-specific install notes, manifests, command wrappers, and extension metadata.
+- `src/` and `bin/`: CLI and stateless MCP server engine.
+- `mcp/`: Model Context Protocol documentation, configs, and schema contracts.
 
 ## 5. Skill behavior
 
@@ -82,6 +81,11 @@ The CLI installs or exports the same shared skills into provider-specific layout
 - Gemini CLI
 - Antigravity CLI
 - OpenCode
+- Cursor
+- Windsurf
+- Roo Code
+- IBM Bob
+- Grok
 
 Provider behavior is not identical. Some environments use native skill loading. Some expose slash commands. Some require explicit skill names in the prompt. The shared skill folder names are the portable contract.
 

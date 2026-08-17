@@ -26,9 +26,9 @@ The CLI runs locally and uses local filesystem operations to copy bundled skill 
 The CLI may read files that are part of the installed package, including:
 
 - `package.json`
-- `.skills/export/export-config.json`
-- bundled skill folders under `.skills/agent-skill/`
-- bundled provider files under `.skills/providers/`
+- `src/export-config.json`
+- bundled skill folders under `skills/`
+- bundled provider files under `providers/`
 - the context-file template under `hub/context-builder/templates/`
 - a Career Context file explicitly supplied to `context validate` or `context summary`
 - a VitaeGraph workspace explicitly supplied to a `graph` command, or the default `~/.vitaecontext/vitaegraph/` workspace
@@ -45,6 +45,11 @@ Depending on the command and provider, VitaeContext may write files to local des
 - `~/.gemini/extensions/vitaecontext/` for Gemini CLI installs
 - `~/.gemini/antigravity-cli/plugins/vitaecontext/` for Antigravity installs
 - `~/.config/opencode/skills/` for OpenCode installs
+- `.cursor/skills/` for Cursor installs
+- `.windsurf/skills/` for Windsurf installs
+- `.roo/skills/` for Roo Code installs
+- `.ibm/skills/` for IBM Bob installs
+- `.grok/skills/` for Grok installs
 - a context-file template path selected with `vitaecontext template context --output`
 - a Career Context starter selected with `vitaecontext context init --output`, or the default `~/.vitaecontext/career-context.md`
 - a bounded context packet selected with `vitaecontext context summary --output`

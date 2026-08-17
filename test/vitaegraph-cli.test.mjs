@@ -6,7 +6,7 @@ import path from "node:path";
 import { test } from "node:test";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
-const cli = path.join(repoRoot, ".skills", "export", "scripts", "vitaecontext.mjs");
+const cli = path.join(repoRoot, "bin", "vitaecontext.mjs");
 
 test("graph CLI defaults to ~/.vitaecontext/vitaegraph", () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), "vitaegraph-home-"));

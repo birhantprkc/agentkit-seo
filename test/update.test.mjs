@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { compareSemver } from "../.skills/export/lib/update.mjs";
+import { compareSemver } from "../src/update.mjs";
 
 test("compareSemver orders core versions", () => {
   assert.equal(compareSemver("1.0.0", "1.0.1"), -1);
