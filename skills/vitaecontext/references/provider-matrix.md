@@ -1,14 +1,20 @@
 # Provider matrix
 
-This matrix captures adapter assumptions as of July 19, 2026. Verify current provider docs before changing install behavior, command syntax, or marketplace guidance.
+This matrix captures adapter assumptions as of August 17, 2026. Verify current provider docs before changing install behavior, command syntax, or marketplace guidance.
 
 | Provider | Shared skill-bundle fit | Custom command fit | Best user-facing module trigger |
 | --- | --- | --- | --- |
-| Claude Code | Strong | Strong for plugins; local command directories do not create colon namespacing | Direct skill use or later plugin command such as `/vitaecontext:linkedin` |
+| Claude Code | Strong | Strong for plugins; local command directories do not create colon namespacing | Direct skill use or marketplace plugin |
 | Codex | Strong through direct skills and the generated native plugin bundle | Do not assume slash wrappers are the primary interface | Explicit skill selection such as `$vitaecontext-linkedin` |
 | Gemini CLI | Strong | Strong, with documented namespaced commands from nested paths | `/vitaecontext:linkedin` |
 | Antigravity CLI | Strong | Unknown at launch; imports Gemini extensions as plugins, but command names need live confirmation | Native plugin or skill discovery first; Gemini-style `/vitaecontext:linkedin` remains TBD |
 | OpenCode | Strong | Strong, with documented flat commands from Markdown filenames | Native skill loading or `/vitaecontext-linkedin` |
+| Cursor | Strong | Native Agent Skills in `.cursor/skills/` or stateless MCP server | Direct skill invocation or MCP tool/resource |
+| Windsurf | Strong | Native Cascade Skills in `.windsurf/skills/` or stateless MCP server | Direct skill invocation or MCP tool/resource |
+| Roo Code | Strong | Native Skills in `.roo/skills/` or stateless MCP server | Direct skill invocation or MCP tool/resource |
+| IBM Bob | Strong | Native Skills in `.ibm/skills/` or stateless MCP server | Direct skill invocation or MCP tool/resource |
+| Grok | Strong | Native Skills in `.grok/skills/` or stateless MCP server | Direct skill invocation or MCP tool/resource |
+| Shared | Strong | Portable manual reuse | Direct file or prompt loading |
 
 ## Policy
 
@@ -27,3 +33,9 @@ The provider-facing artifact should be the self-contained shared skill bundle. P
 | Gemini CLI | Yes | Extension bundle installs namespaced wrappers under `commands/vitaecontext/`. |
 | Antigravity CLI | Yes | Plugin bundle installs Gemini-compatible wrappers under `commands/vitaecontext/`, but imported command syntax is TBD until confirmed in `agy`. |
 | OpenCode | Yes | Flat wrappers are copied to `.opencode/commands/` or `~/.config/opencode/commands/`. |
+| Cursor | No | Uses native `.cursor/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| Windsurf | No | Uses native `.windsurf/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| Roo Code | No | Uses native `.roo/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| IBM Bob | No | Uses native `.ibm/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| Grok | No | Uses native `.grok/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| Shared | No | Portable skill folders with `SKILL.md` for manual packaging or custom integration. |

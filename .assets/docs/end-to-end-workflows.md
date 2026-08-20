@@ -1,6 +1,6 @@
 # VitaeContext end-to-end demos
 
-This file demonstrates what VitaeContext can do once an agent already has the skills installed and available. It assumes the user is working inside a provider agentic coding tool such as Codex, Claude Code, Gemini CLI, Antigravity, OpenCode, or another environment that can read files, inspect public URLs, process pasted text, and use screenshots when the provider supports image inputs.
+This file demonstrates what VitaeContext can do once an agent already has the skills installed and available. It assumes the user is working inside a provider agentic coding tool such as Claude Code, Codex, Gemini CLI, Antigravity, OpenCode, Cursor, Windsurf, Roo Code, IBM Bob, Grok, or another environment that can read files, inspect public URLs, process pasted text, and use screenshots when the provider supports image inputs.
 
 These demos are not installation instructions. Use [getting-started.md](./getting-started.md) for setup and [architecture-map.md](./architecture-map.md) for maintainer validation.
 

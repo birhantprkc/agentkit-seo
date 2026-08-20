@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Last updated: 2026-07-19
+Last updated: 2026-08-17
 
 VitaeContext is a local-first, open-source npm package. It provides Markdown skills, provider adapters, command wrappers, templates, and a small CLI for exporting or installing those files into supported agent environments.
 

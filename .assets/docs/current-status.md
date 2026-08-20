@@ -2,7 +2,7 @@
 
 This file is the maintainer snapshot for what is live, what is packaged, and what remains open. Keep public positioning in `README.md`; keep operational status here.
 
-## As of 2026-07-19
+## As of 2026-08-17
 
 ### Public surfaces
 
@@ -21,10 +21,7 @@ Published release line:
 - `v1.9.0` through `v1.9.2`
 - `v2.0.0`
 - `v2.1.0`
-
-Prepared next release:
-
-- `v2.2.0` is prepared in the source tree and requires the matching release tag before it is available from npm.
+- `v2.2.0`
 
 ### Current architecture
 
@@ -81,6 +78,11 @@ Working install targets:
 | `gemini-cli` | Extension under `~/.gemini/extensions/vitaecontext/` | Includes `GEMINI.md`, `gemini-extension.json`, skills, and namespaced commands |
 | `antigravity` | Plugin under `~/.gemini/antigravity-cli/plugins/vitaecontext/` | Uses Gemini-compatible plugin layout; exact runtime command surfacing still needs live confirmation |
 | `opencode` | Skills plus flat command wrappers | Commands map to shared skill names |
+| `cursor` | Skill folders under `.cursor/skills/` or `~/.cursor/skills/` | Native Cursor Agent Skills; MCP server integration |
+| `windsurf` | Skill folders under `.windsurf/skills/` or `~/.codeium/windsurf/skills/` | Native Windsurf Cascade Skills; MCP server integration |
+| `roo-code` | Skill folders under `.roo/skills/` or `~/.config/roo-code/skills/` | Native Roo Code / Cline Skills; MCP server integration |
+| `ibm-bob` | Skill folders under `.ibm/skills/` or `~/.ibm/skills/` | IBM Bob / watsonx Code Assistant Skills; MCP server integration |
+| `grok` | Skill folders under `.grok/skills/` or `~/.grok/skills/` | xAI Grok Agent Skills; MCP server integration |
 | `shared` | Portable skill bundle export | Useful for manual or future provider integration |
 
 The npm CLI install path is complemented by a Claude Code plugin-marketplace channel: `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json` let users run `/plugin marketplace add vitaecontext/vitaecontext` and `/plugin install vitaecontext@vitaecontext`.
@@ -88,6 +90,7 @@ The npm CLI install path is complemented by a Claude Code plugin-marketplace cha
 Working CLI surfaces:
 
 - `vitaecontext version`
+- `vitaecontext mcp` (also standalone `vitaecontext-mcp` executable over stdio)
 - `vitaecontext update` (compares either the running package or an installed provider manifest against the npm registry latest; explicit, network-only, never automatic; supports `--provider`, `--json`, and `--timeout`)
 - `vitaecontext doctor`
 - `vitaecontext list providers`
