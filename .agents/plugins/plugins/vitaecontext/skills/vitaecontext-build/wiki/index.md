@@ -5,8 +5,8 @@ metadata:
   title: "Context Builder wiki index"
   status: stable
   confidence: stable
-  last_reviewed: 2026-05-27
-  review_by: 2026-11-27
+  last_reviewed: 2026-08-22
+  review_by: 2027-02-22
   source_status: repo
   agent_priority: high
 -->
@@ -30,7 +30,8 @@ If this file is unavailable in an older install, continue with the matching `ref
 Read [knowledge.md](knowledge.md) when the task asks about any of these topics:
 
 - What a Career Context file is, when to create one, where to store it, or how it relates to platform skills
-- Context-file structure, `QUICK REFERENCE`, canonical section order, semantic tags, or `VERIFIED FACTS`
+- Context-file structure, `QUICK REFERENCE`, personalized narrative hierarchy, semantic tags, or `VERIFIED FACTS`
+- Personalization interviews, purpose-led entries, claim states, metric selection, or means-versus-objective distinctions
 - Maintenance, validation, chronology checks, source ledgers, or targeted updates
 - Cross-platform fact conflicts, unsupported claims, or downstream public-output grounding
 - Audit output that must separate existing context facts, supplied sources, inference, and needs-evidence claims

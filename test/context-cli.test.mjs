@@ -24,7 +24,7 @@ test("context CLI validates and summarizes a valid file as JSON", () => {
   assert.equal(validation.valid, true);
   const summary = JSON.parse(execFileSync(process.execPath, [cli, "context", "summary", example, "--for", "cv", "--json"], { encoding: "utf8" }));
   assert.equal(summary.surface, "cv");
-  assert.match(summary.content, /## EDUCATION/);
+  assert.match(summary.content, /## Education/);
 });
 
 test("context summary expands a user-relative output path", () => {

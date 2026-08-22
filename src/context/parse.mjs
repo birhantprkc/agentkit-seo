@@ -1,19 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const REQUIRED_SECTIONS = ["goals and targeting", "education", "skills index", "languages"];
-const ORDERED_SECTIONS = [
-  "goals and targeting",
-  "education",
-  "professional experience",
-  "research and publications",
-  "skills index",
-  "certifications and achievements",
-  "languages",
-  "extracurricular and leadership",
-  "output preferences",
-  "public profile snapshot"
-];
+const REQUIRED_SECTIONS = ["goals and targeting", "skills index"];
+const CAREER_HISTORY_TAGS = new Set(["DEGREE", "COURSE", "PROJECT", "THESIS", "ROLE", "PAPER", "PREPRINT", "CERT", "COMPETITION", "AWARD"]);
 const TLDR_TAGS = new Set(["PROJECT", "THESIS", "COMPETITION", "ROLE"]);
 const EMPTY_VALUE = /^(?:null|n\/a|na|none|undefined|tbd|todo|-)$/i;
 const PLACEHOLDER = /(?:\[(?:your|replace|add|insert|describe)\b[^\]]*\]|<(?:name|path|role|value)[^>]*>|\bTODO\b|\bTBD\b)/i;
@@ -144,28 +133,13 @@ function diagnostic(code, line, message, severity = "error") {
   return { code, line, message, severity };
 }
 
-function validateKnownSectionOrder(headings, diagnostics) {
-  const positions = ORDERED_SECTIONS
-    .map((name) => ({ name, heading: headings.find((entry) => entry.level === 2 && entry.normalized === name) }))
-    .filter((entry) => entry.heading);
-  for (let index = 1; index < positions.length; index += 1) {
-    if (positions[index].heading.index < positions[index - 1].heading.index) {
-      diagnostics.push(diagnostic(
-        "section_order",
-        positions[index].heading.line,
-        `'${positions[index].heading.title}' must appear after '${positions[index - 1].heading.title}'`
-      ));
-    }
-  }
-}
-
 function validateTldrEntries(lines, headings, diagnostics) {
   for (const heading of headings.filter((entry) => entry.level >= 3)) {
     const tag = heading.title.match(/\[([A-Z]+)\]/)?.[1];
     if (!TLDR_TAGS.has(tag)) continue;
     const content = sectionContent(lines, headings, heading);
     if (!/(?:^|\n)(?:\*\*)?TL;DR(?:\*\*)?:/i.test(content)) {
-      diagnostics.push(diagnostic("missing_tldr", heading.line, `${tag} entry is missing a TL;DR field`));
+      diagnostics.push(diagnostic("missing_tldr", heading.line, `${tag} entry has no TL;DR; add one when it would improve retrieval`, "warning"));
     }
   }
 }
@@ -261,6 +235,14 @@ export function parseContextDocument(content, options = {}) {
     }
   }
 
+  const hasEvidenceEntry = headings.some((entry) => {
+    const tag = entry.title.match(/\[([A-Z]+)\]/)?.[1];
+    return CAREER_HISTORY_TAGS.has(tag);
+  });
+  if (!hasEvidenceEntry) {
+    diagnostics.push(diagnostic("missing_evidence_history", 1, "Add at least one semantically tagged career-history entry"));
+  }
+
   if (quick.end !== null) {
     const nextH2 = headings.find((entry) => entry.level === 2 && entry.index > quick.heading.index);
     const scope = lines.slice((quick.end ?? quick.heading.index) + 1, nextH2?.index ?? lines.length).join("\n")
@@ -269,7 +251,6 @@ export function parseContextDocument(content, options = {}) {
     if (!scope) diagnostics.push(diagnostic("missing_scope_declaration", quick.heading.line, "Add a short scope declaration after QUICK REFERENCE"));
   }
 
-  validateKnownSectionOrder(headings, diagnostics);
   validateTldrEntries(lines, headings, diagnostics);
   validateChronology(visible, diagnostics);
   validateVerifiedFacts(content, diagnostics);
@@ -298,7 +279,7 @@ export function parseContextDocument(content, options = {}) {
     .map((heading) => ({ ...heading, content: sectionContent(lines, headings, heading) }));
 
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     valid: errors.length === 0,
     title: h1s.length === 1 ? h1s[0].title : null,
     quickReference,

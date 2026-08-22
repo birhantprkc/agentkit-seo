@@ -2,16 +2,16 @@
 metadata:
   title: "Career Context file — guided template"
   platform: "general"
-  objective: "A self-contained guided template for building a valid Career Context file, with pre-filled examples and blank placeholders for every required section."
+  objective: "A guided template for building a personalized, evidence-bounded Career Context file."
   status: "draft"
-  last_updated: "2026-04-24"
+  last_updated: "2026-08-22"
   tags: ["context-file", "template", "guided", "career"]
   agent_priority: "high"
 -->
 
 # Career Context file — guided template
 
-> A complete, self-contained template for building a Career Context file. Every section is present with a pre-filled generic example and a blank placeholder to replace with your own information.
+> A guided template for building a Career Context file with a stable retrieval interface and a body ordered around the person's priorities.
 
 ---
 
@@ -25,12 +25,14 @@ This template reproduces the full structure defined in [context-file-spec.md](..
 
 ## 2. How to use this template
 
-Work through each section in order. For each section:
+Complete QUICK REFERENCE, the scope declaration, and Goals and targeting first. Then rank the evidence modules and work through them in the order that best represents the person. For each section:
 
 1. Read the example block to understand the correct format.
 2. Replace the placeholder block with your own content, following the same format.
 3. Delete the example block when you are done with that section.
 4. Update the VERIFIED FACTS comment in the scope declaration every time you add a grade, score, date, ID, or ranking.
+
+Before drafting the body, confirm the current evidence-backed identity, long-term direction, paths to keep open, defining evidence, supporting foundations, claims to avoid, and preferred order of experience, projects, research, education, achievements, community work, and affiliations.
 
 When all sections are filled and all example blocks are deleted, run the validation checklist in [context-file-spec.md](../context-file-spec.md) section 5 before using the file in a session.
 
@@ -193,6 +195,10 @@ Good example:
 **Evidence boundaries:** Kubernetes, observability, and backend reliability are verified; staff-level leadership is a growth direction supported by mentoring and project ownership examples.
 **Positioning constraints:** Frame staff-level reliability as a direction, not as a current title.
 **Claims to avoid:** Staff Engineer title, company-wide incident ownership, formal people management.
+**Defining evidence:** Kubernetes operator project, backend reliability role, and incident-review tooling.
+**Supporting foundations:** Distributed systems and observability are means for improving platform reliability and developer experience.
+**Paths to keep open:** Product platform engineering and applied reliability research.
+**Preferred body order:** Professional experience, independent projects, research, education, achievements, community work, affiliations.
 **Constraints:** needs visa sponsorship outside the EU; not pursuing pure management tracks.
 ```
 
@@ -208,6 +214,10 @@ Replace the block below with your own goals and targeting. Keep each line to sta
 **Evidence boundaries:** [Which direction claims are verified, emerging, or target development areas.]
 **Positioning constraints:** [Rules for framing the transition without overstating experience.]
 **Claims to avoid:** [Claims that should not appear in public copy unless new evidence is supplied.]
+**Defining evidence:** [The two or three experiences, research items, or projects that matter most now.]
+**Supporting foundations:** [Capabilities to carry forward and the objectives they serve.]
+**Paths to keep open:** [Research, industry, independent, leadership, or other outcomes.]
+**Preferred body order:** [Rank experience, projects, research, education, achievements, community work, and affiliations.]
 **Constraints:** [Visa, availability, role types to avoid, or No restriction.]
 ```
 
@@ -239,6 +249,66 @@ Its purpose is to serve as a structured source of truth from which career
 outputs can be generated. All facts, grades, dates, and names are verified.
 
 <!-- VERIFIED FACTS: [list every verified fact here as key=value pairs] -->
+```
+
+### Professional experience
+
+Place defining professional or research experience before education when it is more important to the person's current positioning. Write each role with the `[ROLE]` tag. Use purpose, personal ownership, important choices, evidence, and boundaries to determine the detail. Bullets and compact prose are both valid. A TL;DR is recommended for substantial entries.
+
+Good example:
+
+```markdown
+### [ROLE] Platform Engineering Intern | Booking.com | Amsterdam, Netherlands | June 2023 – August 2023
+**TL;DR:** Reduced deployment friction by owning a bounded internal-platform improvement, without implying organization-wide platform leadership.
+
+**Purpose:** Replace a manual deployment-ticket workflow with a repeatable self-service path.
+**Ownership:** Designed and implemented the GitOps pipeline and reusable infrastructure modules used in the internship scope.
+**Approach:** Used Go, Kubernetes, ArgoCD, Helm, Terraform, GCP, and GitHub Actions; measured the rollout before interpreting its effect.
+**Evidence:** Mean deployment time fell from 47 to 28 minutes for the onboarded services during the six-week rollout. The result demonstrates scoped platform delivery, not ownership of the company's complete developer platform.
+```
+
+Replace the block below with your own role entry. Add one block per role, most recent first within the module.
+
+```markdown
+### [ROLE] [Job title] | [Company] | [Location] | [Start Month Year – End Month Year]
+**TL;DR:** [Purpose, personal ownership, and strongest evidence in one compact sentence, when useful.]
+
+**Purpose:** [Why the work existed and what problem mattered.]
+**Ownership:** [What you personally decided, built, tested, researched, or maintained.]
+**Approach:** [Important choices, methods, technologies, or trade-offs.]
+**Evidence:** [An interpreted result, qualitative finding, or one to three decision-relevant metrics.]
+**Boundaries:** [What this role does not establish, when overclaiming is likely.]
+```
+
+### Independent projects
+
+Place independent or open-source projects next when they are defining evidence. Keep them separate from coursework when their purpose, ownership, or career relevance deserves greater prominence.
+
+Good example:
+
+```markdown
+### [PROJECT] QueueWatch
+**TL;DR:** Built a local failure-replay tool to make retry behavior reproducible without claiming production reliability impact.
+
+**Purpose:** Make failed background jobs inspectable and replayable during development.
+**Role:** Sole implementer and maintainer.
+**Approach:** Built a searchable failure timeline and retry workflow with TypeScript, Fastify, PostgreSQL, OpenTelemetry, and Docker.
+**Result:** Delivered a runnable local artifact with setup and architecture notes; no production deployment or incident-reduction claim is supported.
+**Career relevance:** Evidence for a transition from backend work toward developer-platform and reliability engineering.
+```
+
+Replace the block below with your own project entry, or omit this module when it is not relevant:
+
+```markdown
+### [PROJECT] [Project name] | Repo: [https://github.com/...]
+**TL;DR:** [Purpose, ownership, and strongest evidence in one compact sentence, when useful.]
+
+**Purpose:** [Why the project existed and what problem mattered.]
+**Role:** [What you personally owned.]
+**Approach:** [Important choices, methods, technologies, or trade-offs.]
+**Results or findings:** [Interpreted metrics, qualitative findings, or bounded outcomes.]
+**Career relevance:** [Why this evidence supports the intended direction, when not obvious.]
+**Boundaries:** [What this entry does not establish, when overclaiming is likely.]
 ```
 
 ### Education
@@ -285,18 +355,18 @@ Topics: [comma-separated list of technical topics covered]
 
 #### Projects under a course
 
-If a course has a project, nest it under the course as an H5 entry with the `[PROJECT]` tag. The TL;DR line is required and must be under 30 words.
+Projects may be nested under education or placed in a higher-priority independent-project module. Use a TL;DR for substantial entries when it improves retrieval.
 
 Good example:
 
 ```markdown
 ##### [PROJECT] Fault-tolerant key-value store | Repo: https://github.com/alexrivera/kvstore
-**TL;DR:** Implemented a linearizable, fault-tolerant key-value store using Raft consensus in Go, achieving 99.9% availability under simulated network partitions.
+**TL;DR:** Tested whether a student-built Raft store preserved availability during controlled network partitions.
 
-**Description:** A distributed key-value store supporting linearizable reads and writes, leader election, log replication, and snapshotting.
-**Technologies:** Go, gRPC, Protocol Buffers, Docker, GitHub Actions
-**Key areas:** Raft leader election, log compaction, network partition handling, integration testing under fault injection
-**Results:** 99.9% availability across 1,000 fault injection test runs; 12 ms median write latency under normal operation
+**Purpose:** Understand how leader election, replication, and snapshotting behave under injected faults.
+**Role:** Implemented the store and evaluation harness in Go.
+**Approach:** Used gRPC, Protocol Buffers, Docker, and repeatable partition tests; compared availability with observed write latency rather than treating one score as sufficient.
+**Results:** The implementation remained available in 99.9% of 1,000 controlled test runs with 12 ms median write latency under the tested normal-load condition. These measurements describe the course environment, not production readiness.
 ```
 
 Replace the block below with your own project entry:
@@ -305,10 +375,12 @@ Replace the block below with your own project entry:
 ##### [PROJECT] [Project name] | Repo: [https://github.com/...]
 **TL;DR:** [One sentence: what was built, core technologies, key result. Under 30 words.]
 
-**Description:** [What the project is.]
-**Technologies:** [comma-separated list]
-**Key areas:** [What was implemented or demonstrated.]
-**Results:** [Quantified outcomes.]
+**Purpose:** [Why the project existed and what problem mattered.]
+**Role:** [What you personally owned.]
+**Approach:** [Important choices, methods, technologies, or trade-offs.]
+**Results or findings:** [One to three interpreted metrics, qualitative findings, or bounded outcomes.]
+**Career relevance:** [Why this evidence supports your intended direction, when not obvious.]
+**Boundaries:** [What this entry does not establish, when overclaiming is likely.]
 ```
 
 #### Thesis
@@ -333,33 +405,6 @@ Replace the block below with your own thesis entry:
 **Supervisors:** [Name, Name]
 **Research area:** [Area A, Area B]
 **TL;DR:** [One sentence — contribution and outcome. Under 30 words.]
-```
-
-### Professional experience
-
-Write each role as an H3 entry with the `[ROLE]` tag. The TL;DR line is required. Follow it with bullet points covering the technical problem, tools used, and measurable outcomes.
-
-Good example:
-
-```markdown
-### [ROLE] Platform Engineering Intern | Booking.com | Amsterdam, Netherlands | June 2023 – August 2023
-**TL;DR:** Built a self-service internal developer platform feature that reduced deployment time for 120+ engineering teams by 40%.
-
-- Designed and implemented a GitOps-based deployment pipeline using ArgoCD and Helm, replacing a manual ticketing workflow used by 120+ teams.
-- Reduced mean deployment time from 47 minutes to 28 minutes across all onboarded services, measured over a 6-week rollout period.
-- Wrote Terraform modules for GCP infrastructure provisioning, adopted by 3 additional platform teams after the internship ended.
-- Tools: Go, Kubernetes, ArgoCD, Helm, Terraform, GCP, GitHub Actions
-```
-
-Replace the block below with your own role entry. Add one block per role, most recent first.
-
-```markdown
-### [ROLE] [Job title] | [Company] | [Location] | [Start Month Year – End Month Year]
-**TL;DR:** [One sentence describing the role's scope and primary focus. Under 30 words.]
-
-- [Technical problem addressed, with context.]
-- [Tools and methodologies used.]
-- [Measurable outcome, expressed as a number where possible.]
 ```
 
 ### Research and publications
@@ -449,7 +494,7 @@ Score: [overall score and per-component breakdown if applicable].
 
 ### Languages
 
-The Languages section is a table. Use CEFR levels as the standard. Include test scores and certificate IDs in the Certificate column. Write `—` for fields with no value.
+The Languages section may be a compact table or list. Use CEFR levels when relevant and preserve whether a level is certified or self-reported. Include test scores and certificate IDs only when they are useful hard anchors.
 
 Good example:
 
@@ -469,7 +514,7 @@ Replace the table below with your own language entries:
 
 Include this section only if you have relevant organizational roles, leadership positions, or community contributions. Omit it entirely if you have none.
 
-Each entry is an H3 with the `[ORG]` tag. Each bullet must state a concrete activity with scope indicators — numbers of events, participants, or partners. Do not write generic descriptions.
+Each entry is an H3 with the `[ORG]` tag. State whether it represents membership, affiliation, or an evidenced operating role. Describe concrete activities and interpreted scope when supported; do not invent contribution or require numbers for membership-only entries.
 
 Good example:
 
@@ -484,8 +529,8 @@ Replace the block below with your own extracurricular entries, or remove this se
 
 ```markdown
 ### [ORG] [Organization name] | [Role] | [Start Month Year – End Month Year]
-- [Specific, quantified contribution with scope indicators.]
-- [Specific, quantified contribution with scope indicators.]
+- [Specific evidenced contribution with an interpreted scope indicator when useful.]
+- [A second contribution, or omit if membership is the only supported state.]
 ```
 
 ---

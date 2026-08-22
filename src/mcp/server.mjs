@@ -61,7 +61,7 @@ export async function handleMcpRequest(request, repoRoot, config, options = {}) 
           },
           serverInfo: {
             name: config.package?.name ?? "vitaecontext",
-            version: config.package?.version ?? "2.2.0"
+            version: config.package?.version ?? "2.2.1"
           }
         });
         break;

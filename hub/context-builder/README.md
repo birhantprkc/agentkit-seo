@@ -4,7 +4,7 @@ metadata:
   platform: "general"
   objective: "Navigation index for the context-builder folder, including the specification, workflow, maintenance guide, and template."
   status: "draft"
-  last_updated: "2026-05-11"
+  last_updated: "2026-08-22"
   tags: ["context-file", "index", "navigation"]
   agent_priority: "medium"
 -->
@@ -20,7 +20,7 @@ metadata:
 
 The fastest way to get generic career output is to give an agent scattered context. A CV in one message, a LinkedIn profile in another, a GitHub URL later, and a few corrections after the first bad draft.
 
-This module fixes that by turning professional history and future direction into one structured Markdown file. The file describes a person's academic and professional record, target roles, growth direction, evidence boundaries, and positioning constraints in a format that both humans and AI agents can navigate reliably.
+This module fixes that by turning professional history and future direction into one structured Markdown file. The file is both a factual source of truth and a positioning guide: it records purpose, priorities, defining evidence, growth direction, evidence boundaries, and claims to avoid in a format that both humans and AI agents can navigate reliably.
 
 The intended use is simple: keep one canonical context file up to date, load it into an agent session, and combine it with the platform-specific modules in this repository when generating CVs, LinkedIn text, portfolio copy, or interview prep.
 
@@ -43,7 +43,7 @@ After:
 ## 3. Fast path
 
 1. Read [why-context-files.md](./why-context-files.md) to understand the purpose.
-2. Use [templates/context-file-template.md](./templates/context-file-template.md) to create the first draft.
+2. Complete the personalization interview in the runtime skill, then use [templates/context-file-template.md](./templates/context-file-template.md) to create the first draft.
 3. Review [the fictional Alex Morgan example](./examples/alex-morgan-fictional-career-context.md) to see a complete filled file without publishing a real person's Career Context.
 4. Check the draft against [context-file-spec.md](./context-file-spec.md).
 5. Use [agent-workflow.md](./agent-workflow.md) when loading the file into an agent session.
@@ -51,7 +51,7 @@ After:
 
 ## 4. Directory contents
 
-- [context-file-spec.md](./context-file-spec.md): The authoritative specification for structure, section order, semantic tags, and validation.
+- [context-file-spec.md](./context-file-spec.md): The authoritative specification for the stable semantic interface, personalized hierarchy, semantic tags, and validation.
 - [why-context-files.md](./why-context-files.md): The motivation document explaining why a context file outperforms copy-pasted raw text or agent memory.
 - [agent-workflow.md](./agent-workflow.md): The operational guide for loading the file into agent sessions and combining it with other modules.
 - [file-maintenance.md](./file-maintenance.md): The maintenance lifecycle for updates, token growth, goals, verified facts, and version history.

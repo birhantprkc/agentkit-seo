@@ -3,7 +3,7 @@
 ## Session workflow
 
 1. load the Career Context file first
-2. state the task and hard constraints
+2. state the task, current priority, and hard constraints
 3. load the matching platform skill only if needed
 4. review the output against factual grounding
 5. revise the Career Context file if the task exposed missing or conflicting facts
@@ -44,7 +44,7 @@ For large files, avoid dumping the full context file into chat by default. Prefe
 
 The Career Context file supplies facts.
 
-The goals and targeting section supplies direction, priorities, and constraints.
+The interpretive layer supplies direction, priorities, paths to keep open, supporting foundations, and constraints.
 
 The platform skill supplies formatting, discoverability, and channel-specific constraints.
 
@@ -59,7 +59,8 @@ When tailoring output, use verified evidence as the foundation, future direction
 - record aspirations, target roles, growth direction, and claims to avoid in `Goals and targeting`
 - when adding new content, also update the `VERIFIED FACTS` anchor if relevant
 - keep a version history, ideally in Git
-- when a file is structurally weak, repair canonical structure before downstream rewriting
+- when a file is structurally weak, repair the stable semantic interface before downstream rewriting
+- when a file's emphasis no longer matches the user, confirm a new narrative hierarchy before reordering
 
 ## Token management
 
@@ -67,6 +68,7 @@ When tailoring output, use verified evidence as the foundation, future direction
 - preserve the full historical record in the body
 - compress peripheral detail rather than deleting important evidence
 - keep source ledgers grouped and short; do not list every tiny note unless it affects a conflict or hard factual claim
+- keep purpose and ownership for defining entries; compress inventories and peripheral detail first
 
 ## Agent editing rule
 

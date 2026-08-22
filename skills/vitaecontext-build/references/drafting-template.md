@@ -1,22 +1,18 @@
 # Drafting template and authoring rules
 
-## Canonical file skeleton
+## Default file skeleton
 
-Use one Markdown file with this fixed order:
+Use one Markdown file. Keep the first two elements stable, then arrange the remaining modules by user-confirmed importance:
 
 1. `# Full Name - positioning descriptor`
 2. `## QUICK REFERENCE`
-3. `## Goals and targeting`
-4. scope declaration paragraph
-5. education
-6. professional experience if any
-7. research and publications if any
-8. skills index
-9. certifications and achievements if any
-10. languages
-11. extracurricular and leadership if any
+3. scope declaration paragraph and `VERIFIED FACTS`
+4. goals, direction, priorities, and boundaries
+5. user-ordered evidence modules such as experience, independent projects, research, education, achievements, community work, and affiliations
+6. skills index
+7. languages when useful
 
-Do not reorder sections for stylistic reasons. Stable order helps both human maintenance and agent retrieval.
+Keep semantic tags stable. Use order and depth to communicate relevance. A user may choose experience-first, project-first, research-first, or education-first organization.
 
 ## QUICK REFERENCE template
 
@@ -83,16 +79,36 @@ marked as needing evidence before reuse.
 
 - Degrees: use `## [DEGREE] ...` headings and one sentence on relevance.
 - Courses: use `#### [COURSE] ...` plus one flat `Topics:` line.
-- Projects under courses: use `##### [PROJECT] ...` and include a required `**TL;DR:**` line under 30 words.
+- Projects: use a `[PROJECT]` heading and a selective purpose-led structure. Include `TL;DR` when the entry is substantial.
 - Thesis: use `### [THESIS] ...` with `Full title`, `Supervisors`, `Research area`, and `TL;DR`.
-- Roles: use `### [ROLE] ...` with `TL;DR` and quantified bullets, not prose paragraphs.
+- Roles: use a `[ROLE]` heading with purpose, ownership, evidence, and only decision-relevant metrics. Bullets and compact prose are both valid.
 - Papers and preprints: use `### [PAPER] ...` or `### [PREPRINT] ...` with authorship, venue or status, and `TL;DR`.
 - Skills index: use bold category labels with comma-separated terms on one line; every skill must be evidenced elsewhere in the file.
-- Languages: use a table, not prose.
+- Languages: use a compact table or list.
+
+## Adaptive entry template
+
+Use only the fields that add meaning:
+
+```markdown
+### [PROJECT] Project name
+**TL;DR:** The purpose, owned contribution, and strongest evidence in one compact sentence.
+**Purpose:** Why the project existed and what problem mattered.
+**Role:** What the person owned.
+**Approach:** Important design choices, methods, or trade-offs.
+**Stack/areas:** Technologies or domains that demonstrate relevant depth.
+**Results or findings:** One to three interpreted metrics, qualitative findings, or bounded outcomes.
+**Career relevance:** Why this evidence supports the intended direction, when not obvious.
+**Boundaries:** What the entry does not establish, when overclaiming is likely.
+```
+
+Do not force every label into every entry. Purpose and ownership matter more than exhaustive field compliance.
 
 ## Drafting discipline
 
 - Prefer omission over guessing.
 - Keep descriptors specific to the user's actual positioning, not generic aspirational branding.
-- Use exact dates, grades, rankings, IDs, and scores when known.
+- Use exact dates, grades, rankings, IDs, and scores when known and useful.
+- Do not turn a file into a metric inventory. Every retained number must support an interpretation.
+- Describe a method or technical field as a means when the user's objective lies elsewhere.
 - If the user provides raw material that lacks a needed field, mark the gap and ask for that fact rather than inventing a filler value.

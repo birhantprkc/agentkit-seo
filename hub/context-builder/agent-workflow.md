@@ -4,7 +4,7 @@ metadata:
   platform: "general"
   objective: "Explains how to invoke the context file in an agent session, how to combine it with Skill submodules, and what good output looks like for each major task type."
   status: "draft"
-  last_updated: "2026-04-28"
+  last_updated: "2026-08-22"
   tags: ["context-file", "workflow", "prompting", "agent", "skill"]
   agent_priority: "medium"
 -->
@@ -85,7 +85,7 @@ Constraints:
 - Positioning: use the target_roles, growth_direction, evidence_boundaries, positioning_constraints, claims_to_avoid, and top_skills from the QUICK REFERENCE block and Goals and targeting section
 - Length: follow the platform limits defined in the linkedin submodule
 - Do not use the first person in the headline
-- Include at least one quantified result
+- Include the strongest relevant evidence; use a metric only when the context file explains why it matters
 
 Reference the linkedin submodule formatting rules for section structure and keyword placement.
 ```
@@ -155,7 +155,7 @@ Use the criteria below to evaluate each output type. If an output does not meet 
 
 A good cover letter output:
 - Names at least one specific project or role from the context file in the first paragraph.
-- Cites at least one quantified result (grade, ranking, accuracy rate, dataset size).
+- Cites at least one high-signal result or finding and stays within its recorded interpretation.
 - Matches the target role's language without copying the job description verbatim.
 - Stays within the requested word count.
 - Contains no skills or claims that are not supported by evidence in the context file.
@@ -181,7 +181,7 @@ A good CV variant output:
 A good interview preparation output:
 - Cites the specific project name, grade, or competition result that grounds each answer.
 - Does not generalize beyond what is verifiable in the context file.
-- Formats behavioral answers in STAR structure with a clearly stated, quantified result.
+- Formats behavioral answers in STAR structure with a clearly stated result; uses a metric only when supported and meaningful.
 
 ---
 

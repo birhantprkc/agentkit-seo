@@ -2,44 +2,42 @@
 metadata:
   title: "Career Context file specification"
   platform: "general"
-  objective: "Defines the required structure, section order, formatting conventions, and agent-optimization rules for a Career Context file."
+  objective: "Defines the stable semantic interface and personalized narrative rules for a Career Context file."
   status: "draft"
-  last_updated: "2026-04-24"
+  last_updated: "2026-08-22"
   tags: ["context-file", "specification", "agent-optimization", "formatting"]
   agent_priority: "high"
 -->
 
 # Career Context file specification
 
-> Defines the required structure, section order, and formatting rules that every Career Context file must follow to remain usable by both a human maintainer and an AI agent.
+> Defines a stable agent-readable interface while allowing hierarchy, emphasis, explanations, and boundaries to represent the actual person.
 
 ---
 
 ## 1. Overview
 
-The Career Context file is a single Markdown document containing a person's full professional record and stated career direction. It is the source of truth from which any career output can be generated: CVs, cover letters, LinkedIn sections, portfolio copy, and interview preparation material. Two readers use it simultaneously — a human who maintains it and an agent that extracts verified facts, goals, and positioning constraints from it. Every rule in this spec serves both readers. Following this spec produces a file that any agent can load, navigate by section tag, and use immediately without additional instructions.
+The Career Context file is a private source of truth, positioning guide, and interpretation layer for career-oriented agent work. It records what a person has done, why the work mattered, which evidence supports it, where the person wants to go, and what future agents must not infer. Two readers use it simultaneously: a human who maintains it and an agent that extracts facts, priorities, and boundaries.
+
+Structural compliance is necessary but insufficient. A good file must also be personally representative, evidence-bounded, compact enough for repeated use, and explicit about the relationship between past work and future direction.
 
 The file can live wherever the user wants. Prefer an explicit user-chosen path. A useful portable convention is `~/.vitaecontext/<name-surname>-career-context.md`; a local workspace draft is also valid while the file is being created. Agents must confirm the destination before creating or overwriting the file. Because valid context files can become large, agents should prefer file writes or targeted diffs over full in-chat drafts; if file writing is unavailable, return a compact outline first and split the full Markdown draft by section only when requested.
 
 ## 2. File structure
 
-The context file contains eleven sections in a fixed order. The table below defines the requirement status of each section.
+The file has a stable semantic core and flexible evidence modules. Keep the first two elements stable, then order the remaining modules by personal importance.
 
 | # | Section | Status |
 |---|---|---|
 | 1 | Title | Required |
 | 2 | QUICK REFERENCE block | Required |
-| 3 | Goals and targeting | Recommended |
-| 4 | Scope declaration | Required |
-| 5 | Education | Required |
-| 6 | Professional experience | Conditional |
-| 7 | Research and publications | Conditional |
-| 8 | Skills index | Required |
-| 9 | Certifications and achievements | Conditional |
-| 10 | Languages | Required |
-| 11 | Extracurricular and leadership | Optional |
+| 3 | Scope declaration and VERIFIED FACTS | Required |
+| 4 | Direction, priorities, and boundaries | Required unless declined |
+| 5 | Evidence-backed career history | Required |
+| 6 | Skills index | Required |
+| 7 | Education, research, projects, achievements, languages, community, and affiliations | Conditional |
 
-**Required:** present in every valid context file. **Recommended:** include unless the user declines; it sharpens downstream targeting. **Conditional:** present if the described content exists. **Optional:** may be omitted.
+**Rule:** Keep QUICK REFERENCE first. Experience-first, project-first, research-first, and education-first body structures are all valid. Stable semantic tags provide retrieval without a universal section order.
 
 ### 2.1 Title
 
@@ -111,7 +109,7 @@ The `gpa_summary` field lists all graded courses on a single comma-separated lin
 
 ### 2.3 Goals and targeting
 
-Place the **Goals and targeting** section immediately after the QUICK REFERENCE block. It records where the person wants to go, so downstream skills can aim role, tone, location, keyword choices, and proof selection.
+Use **Goals and targeting** as the default interpretive layer after QUICK REFERENCE and the scope declaration. It records where the person wants to go, what matters most, which paths remain open, and how evidence should be interpreted.
 
 **Rule:** This section holds stated intent and preferences, not verified facts. Keep it separate from the verified record and never convert an aspiration into claimed experience. Do not list it inside the `<!-- VERIFIED FACTS -->` comment.
 
@@ -127,14 +125,23 @@ Place the **Goals and targeting** section immediately after the QUICK REFERENCE 
 **Evidence boundaries:** Which parts of the direction are already verified, which are emerging, and which are target development areas.
 **Positioning constraints:** Rules for framing the transition without overstating experience.
 **Claims to avoid:** Claims that should not appear in public copy unless new evidence is supplied.
+**Defining evidence:** The experiences, research, or projects that should receive the most attention.
+**Supporting foundations:** Capabilities to carry forward and the objectives they serve.
+**Paths to keep open:** Research, industry, independent, leadership, or other outcomes that should remain possible.
 **Constraints:** Visa, availability, role types to avoid, or No restriction.
 ```
 
-**Rule:** Write `No restriction` where the person has no constraint rather than omitting the line, so an agent does not guess.
+**Rule:** Write `No restriction` only when omission could cause a downstream agent to mistake openness for uncertainty.
 
-**Rule:** Use verified evidence as the foundation, future direction as the positioning target, and constraints as guardrails. For example, if a person has applied cryptography evidence and wants to move toward agentic AI security, public copy can say "building toward agentic AI security from applied security foundations" but must not claim mature agentic AI security expertise without supporting work.
+**Rule:** Use verified evidence as the foundation, future direction as the positioning target, and constraints as guardrails. Distinguish established capability, completed research or implementation, practical exposure, active learning, community membership, proposed work, and target expertise. Explain when a prominent method or domain is a supporting means rather than the person's desired identity.
 
-### 2.4 Scope declaration
+### 2.4 Personalized narrative hierarchy
+
+Before a major creation or restructuring, ask the user to rank experience, research, independent projects, education, achievements, community work, and affiliations. Use order and relative depth to express importance.
+
+Give defining evidence more space and compress peripheral history. Keep memberships and honorary affiliations out of professional experience unless they included a distinct evidenced operating role. A thesis may appear as research or experience while retaining a compact academic record under its degree; cross-reference instead of duplicating the full description.
+
+### 2.5 Scope declaration
 
 The **scope declaration** is a single paragraph written in third person. It states what the file is, what it is not, and what it is for. Write it so an agent can read it as instructions rather than self-description.
 
@@ -152,7 +159,7 @@ cert score=NNN, cert id=XXXXXXX, competition result=Nth place, score=XXXXXXX -->
 
 The HTML comment is invisible in rendered Markdown but visible to any agent reading raw text.
 
-### 2.5 Education
+### 2.6 Education
 
 Write each degree as an H2 heading using the `[DEGREE]` tag.
 
@@ -184,14 +191,18 @@ If a course has a project, nest it under the course as an H5 entry with the `[PR
 **TL;DR:** One sentence — what was built, core technologies, key result.
 ```
 
-**Rule:** Every `[PROJECT]` entry must include a `**TL;DR:**` line immediately after its heading. Keep it under 30 words.
+**Recommendation:** Add a `**TL;DR:**` line immediately after the heading when the project is substantial enough that a retrieval summary helps. Keep it compact and evidence-bounded.
 
-Full project detail follows the TL;DR in this order:
+Use an adaptive subset of these fields:
 
-- **Description:** what the project is.
-- **Technologies:** comma-separated list of tools and frameworks.
-- **Key areas:** what was implemented or demonstrated.
-- **Results:** quantified outcomes.
+- **Purpose:** why the project existed and what problem mattered.
+- **Role or ownership:** what the person personally decided, built, tested, or maintained.
+- **Approach or stack/areas:** important methods, technologies, and trade-offs.
+- **Results or findings:** interpreted evidence, including qualitative or bounded outcomes.
+- **Career relevance:** why the work supports the intended direction when the connection is not obvious.
+- **Boundaries:** what the entry does not establish when overclaiming is likely.
+
+Do not force every field into every entry. Lead with purpose before technologies.
 
 Do not explain what a technology does. State what was done with it.
 
@@ -207,7 +218,7 @@ Write the thesis as an H3 entry under its parent degree, using the `[THESIS]` ta
 **TL;DR:** One sentence — contribution and outcome.
 ```
 
-### 2.6 Professional experience
+### 2.7 Professional experience
 
 Write each role as an H3 entry using the `[ROLE]` tag.
 
@@ -216,7 +227,7 @@ Write each role as an H3 entry using the `[ROLE]` tag.
 **TL;DR:** One sentence describing the role's scope and primary focus.
 ```
 
-Follow the TL;DR with bullet points covering the technical problem addressed, tools and methodologies used, and measurable outcomes. Do not use narrative paragraphs.
+Follow the TL;DR with the role's purpose, personal ownership, important choices or trade-offs, and evidence. Use bullets or compact prose according to what communicates the work best.
 
 If the role is the industry context for a thesis, add a cross-reference on the line after the TL;DR:
 
@@ -224,7 +235,7 @@ If the role is the industry context for a thesis, add a cross-reference on the l
 *This role is the industry context for the [THESIS] documented under [degree section].*
 ```
 
-### 2.7 Research and publications
+### 2.8 Research and publications
 
 Include this section only if the person has formal research outputs: published papers, preprints, DOI-linked reports, or papers under review.
 
@@ -240,7 +251,7 @@ Write each paper as an H3 entry using the `[PAPER]` or `[PREPRINT]` tag.
 
 For work not yet published, use `[PREPRINT]` and add the status after the year: `| Under review` or `| In preparation`.
 
-### 2.8 Skills index
+### 2.9 Skills index
 
 **Rule:** Write the Skills index as a flat categorical enumeration. Do not use prose or bullet lists.
 
@@ -260,7 +271,7 @@ Write each category as a bold label followed by a comma-separated list on the sa
 
 Add or remove categories to match the person's field. **Rule:** Every skill listed must appear in at least one other section of the file. Do not add skills without supporting evidence in the body.
 
-### 2.9 Certifications and achievements
+### 2.10 Certifications and achievements
 
 Write each entry as an H3 using the appropriate tag. The three entry types and their formats are shown below.
 
@@ -275,9 +286,9 @@ Score: overall score and per-component breakdown if applicable.
 One sentence describing what was recognized and in what context.
 ```
 
-### 2.10 Languages
+### 2.11 Languages
 
-**Rule:** Write the Languages section as a table. Do not use prose.
+**Recommendation:** Write the Languages section as a compact table or list.
 
 The table below shows the required columns and an example row for each case.
 
@@ -289,17 +300,17 @@ The table below shows the required columns and an example row for each case.
 
 Use CEFR levels as the standard. Include standardized test scores and IDs in the Certificate column.
 
-### 2.11 Extracurricular and leadership
+### 2.12 Extracurricular, community, and affiliations
 
 Write each entry as an H3 using the `[ORG]` tag.
 
 ```markdown
 ### [ORG] Organization name | Role | Period
-- Specific, quantified contribution with scope indicators.
-- Specific, quantified contribution with scope indicators.
+- State whether this was membership, affiliation, or an evidenced operating role.
+- Describe concrete contributions and interpreted scope only when the evidence supports them.
 ```
 
-Each bullet must state a concrete activity with scope indicators: number of events, number of participants, names of partners or sponsors. Do not write generic descriptions such as "contributed to team success."
+Describe evidenced operating work separately from membership or honorary affiliation. Do not infer contribution, leadership, teaching, or employment from membership alone.
 
 ## 3. Formatting rules
 
@@ -327,7 +338,7 @@ Tags enable an agent to identify the content type before reading it. This allows
 
 ### 3.2 TL;DR convention
 
-**Rule:** Every `[PROJECT]`, `[THESIS]`, `[COMPETITION]`, and `[ROLE]` entry must include a `**TL;DR:**` line immediately after its heading. Write it as a single sentence of at most 30 words. It must be the first line of body content in the section, never a heading.
+**Recommendation:** Add a `**TL;DR:**` line to substantial `[PROJECT]`, `[THESIS]`, `[COMPETITION]`, and `[ROLE]` entries when it improves retrieval. Keep it compact and evidence-bounded.
 
 ### 3.3 No unicode bold
 
@@ -347,11 +358,11 @@ Unicode bold inflates token count, breaks in some parsers, and carries no semant
 
 Use an en-dash (`–`), not a hyphen (`-`), in date ranges. Do not mix formats within the file.
 
-### 3.5 Quantify all results
+### 3.5 Select and interpret metrics
 
-**Recommendation:** Express every result, outcome, or contribution that can be measured as a number. Apply this to grades, accuracy rates, rankings, participant counts, dataset sizes, and durations.
+**Recommendation:** Normally retain one to three high-signal metrics per entry. Use a metric only when it demonstrates scale, effectiveness, difficulty, improvement, or a meaningful trade-off.
 
-When a number is approximate, prefix it with `~`. Do not use vague language such as "many," "several," or "a large number of."
+Interpret every retained number so the reader knows why it matters and what it does not prove. Qualitative, negative, bounded, or inconclusive findings are valid evidence when they demonstrate sound judgment. Do not require a metric merely to make an entry appear stronger.
 
 ### 3.6 Technology lists
 
@@ -376,15 +387,13 @@ Technologies:
 
 ### 3.7 Header hierarchy
 
-**Rule:** Follow this four-level hierarchy strictly. Do not skip levels.
+**Rule:** Use consistent Markdown hierarchy within each module. The exact entry level may vary with the user's body structure.
 
 | Level | Used for |
 |---|---|
 | H1 (`#`) | File title. One per file. |
-| H2 (`##`) | Major sections: Education, Professional experience, Skills index, etc. |
-| H3 (`###`) | Individual entries: each degree, role, cert, competition. |
-| H4 (`####`) | Sub-entries: courses under a degree, labs under a project hub. |
-| H5 (`#####`) | Projects nested under a course or lab. |
+| H2 (`##`) | Major user-ordered modules: Experience, Projects, Education, Skills index, etc. |
+| H3-H5 | Entries and sub-entries at a consistent depth within their parent module. |
 
 ## 4. Anti-patterns
 
@@ -412,13 +421,13 @@ Technologies:
 
 **What to do instead:** State what was done with the tool, not what the tool is.
 
-### Missing TL;DR on project and role sections
+### Missing retrieval summary on a substantial entry
 
 **What it looks like:** A 30-line project section with no TL;DR line.
 
 **Why it fails:** An agent generating a CV bullet for that project must parse the full section to find the key claim. This increases token usage and raises the risk of misrepresentation.
 
-**What to do instead:** Add a TL;DR immediately after every `[PROJECT]`, `[THESIS]`, `[COMPETITION]`, and `[ROLE]` heading.
+**What to do instead:** Add a compact TL;DR after a substantial `[PROJECT]`, `[THESIS]`, `[COMPETITION]`, or `[ROLE]` heading when it improves retrieval. Do not require one for a short entry that is already self-explanatory.
 
 ### Null and N/A values in the QUICK REFERENCE block
 
@@ -434,18 +443,20 @@ Before considering a context file complete, verify all of the following items.
 
 - [ ] The file opens with an H1 title in the specified format.
 - [ ] The QUICK REFERENCE YAML block is complete and appears before the scope declaration.
-- [ ] The Goals and targeting section is present (or intentionally declined), holds stated intent only, and is kept out of the `<!-- VERIFIED FACTS -->` comment.
+- [ ] Direction, priorities, supporting foundations, evidence boundaries, and claims to avoid are present or intentionally declined.
 - [ ] The scope declaration includes the `<!-- VERIFIED FACTS: ... -->` comment.
 - [ ] Every verified fact in the file appears inside the `<!-- VERIFIED FACTS: ... -->` comment.
 - [ ] Every H3 and deeper heading representing a professional artifact has a semantic tag.
-- [ ] Every `[PROJECT]`, `[THESIS]`, `[COMPETITION]`, and `[ROLE]` section has a TL;DR line under 30 words.
+- [ ] Defining entries explain purpose and personal ownership; substantial entries use a TL;DR when it improves retrieval.
 - [ ] The Skills index is present and written as a flat categorical enumeration.
 - [ ] Every skill in the Skills index appears in at least one body section.
 - [ ] No Unicode bold characters appear anywhere in the file.
 - [ ] All dates follow the specified format with en-dashes for ranges.
 - [ ] All technology enumerations use comma-separated format, not bullet lists.
-- [ ] All quantifiable results are expressed as numbers.
+- [ ] Metrics are selective, interpreted, and not required without meaning.
 - [ ] The QUICK REFERENCE block contains no `null` or `N/A` values.
+- [ ] Body modules are ordered and weighted according to the user's priorities.
+- [ ] Claim states prevent membership, affiliation, proposal, exposure, or targets from being inflated.
 
 ---
 

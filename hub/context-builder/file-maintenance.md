@@ -4,7 +4,7 @@ metadata:
   platform: "general"
   objective: "Explains when and how to update the Career Context file, how to manage token growth, and how to keep goals, VERIFIED FACTS, and version history accurate."
   status: "draft"
-  last_updated: "2026-06-21"
+  last_updated: "2026-08-22"
   tags: ["context-file", "maintenance", "versioning", "token-efficiency"]
   agent_priority: "low"
 -->
@@ -80,6 +80,11 @@ Instructions:
 6. If the material changes my target roles, growth direction, evidence
    boundaries, positioning constraints, or claims to avoid, update only the
    Goals and targeting section and keep those statements out of VERIFIED FACTS.
+7. If the change affects what defines me, propose an updated body order and
+   relative depth. Do not reorder until I confirm the new hierarchy.
+8. For a defining role or project, explain purpose, ownership, important
+   trade-offs, interpreted evidence, and any boundary needed to prevent
+   overclaiming. Do not require a metric when a qualitative finding is stronger.
 
 Do not modify any existing content in the context file. Only add.
 ```
@@ -92,7 +97,7 @@ As the context file grows over multiple years, it may reach a size where loading
 
 **Rule:** Do not delete completed entries. Move them toward the bottom of their section if they are no longer central to your positioning, but do not remove them. A missing entry cannot be cited.
 
-**Recommendation:** When an entry becomes peripheral to your current positioning, compress its body detail. Remove sub-bullets that explain generic methodology and retain only the facts that are specific and quantified. The heading, tag, TL;DR, and key result must always remain.
+**Recommendation:** When an entry becomes peripheral to current positioning, compress generic methodology and low-signal inventories. Retain purpose, personal ownership, and the most useful evidence. A qualitative or bounded finding may be more important than a metric.
 
 **Rule:** The QUICK REFERENCE block must always reflect current positioning, not historical completeness. If a role ended three years ago and is no longer relevant to your target roles, remove it from the `professional:` field in the QUICK REFERENCE block. The full entry stays in the body.
 
@@ -101,6 +106,8 @@ As the context file grows over multiple years, it may reach a size where loading
 **Rule:** Keep direction fields compact. `positioning_summary`, `growth_direction`, `evidence_boundaries`, `positioning_constraints`, and `claims_to_avoid` should guide an agent quickly, not duplicate project entries or long career strategy notes.
 
 The net effect of these rules is that the QUICK REFERENCE block always reads as a current snapshot of your positioning, while the file body preserves the full historical record for deep queries.
+
+**Recommendation:** Revisit body order when direction changes. Move defining evidence earlier and give it more depth; move supporting or peripheral evidence later. Stable semantic tags preserve retrieval across reordering.
 
 ## 5. Keeping the VERIFIED FACTS comment current
 

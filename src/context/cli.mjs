@@ -24,7 +24,7 @@ function validationJson(result) {
 export function runContextCommand(repoRoot, subject, filePath, flags) {
   if (subject === "init") {
     const destination = initializeContext(repoRoot, flags.output, Boolean(flags.force));
-    if (flags.json) process.stdout.write(`${JSON.stringify({ schemaVersion: 1, path: destination }, null, 2)}\n`);
+    if (flags.json) process.stdout.write(`${JSON.stringify({ schemaVersion: 2, path: destination }, null, 2)}\n`);
     else console.log(`Initialized Career Context at ${destination}`);
     return;
   }

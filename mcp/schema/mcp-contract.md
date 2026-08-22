@@ -34,7 +34,7 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
       },
       "serverInfo": {
         "name": "vitaecontext",
-        "version": "2.2.0"
+        "version": "2.2.1"
       }
     }
   }

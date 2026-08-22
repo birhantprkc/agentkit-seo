@@ -62,7 +62,7 @@ VitaeContext sits one logical layer before those systems. It helps create and ma
 </p>
 
 1. **Gather the raw material.** Start with CVs, profile sections, GitHub and portfolio links, exports, screenshots, and project notes.
-2. **Create the Career Context file with VitaeContext.** Give the raw material to an AI agent and invoke `vitaecontext-build`. The skill guides the agent in organizing the material into one private Markdown file containing verified facts, stated goals, constraints, proof links, and evidence boundaries.
+2. **Create the Career Context file with VitaeContext.** Give the raw material to an AI agent and invoke `vitaecontext-build`. The skill interviews the user about direction, defining evidence, priorities, and unwanted claims, then organizes the material into a private Markdown file with a stable retrieval interface and personalized narrative hierarchy.
 3. **Load one focused skill or query via MCP.** Use the LinkedIn, GitHub, CV/ATS, web portfolio, or X/Twitter module for the surface being improved.
 4. **Produce grounded work.** Get an audit, rewrite, patch proposal, or action plan based on the supplied context and platform guidance.
 

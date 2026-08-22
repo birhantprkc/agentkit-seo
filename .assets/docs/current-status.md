@@ -2,14 +2,14 @@
 
 This file is the maintainer snapshot for what is live, what is packaged, and what remains open. Keep public positioning in `README.md`; keep operational status here.
 
-## As of 2026-08-17
+## As of 2026-08-22
 
 ### Public surfaces
 
 - Source repo: `https://github.com/vitaecontext/vitaecontext`
 - Website and human-readable hub: `https://vitaecontext.github.io/`
 - npm package: `https://www.npmjs.com/package/vitaecontext`
-- Current package version: `vitaecontext@2.2.0`
+- Current package version: `vitaecontext@2.2.1`
 
 Published release line:
 
@@ -22,6 +22,7 @@ Published release line:
 - `v2.0.0`
 - `v2.1.0`
 - `v2.2.0`
+- `v2.2.1`
 
 ### Current architecture
 
@@ -61,7 +62,7 @@ The root orchestrator resolves surface, task mode, mutation authority, evidence 
 
 VitaeGraph routes create, deepen, maintain, validate, index, retrieve, and migrate operations separately. It previews destructive or many-record changes, preserves stable IDs, treats `visibility: public` as eligibility rather than publication consent, and reports degraded manual checks when the graph CLI is unavailable.
 
-The `vitaecontext-build` module additionally captures the user's direction, not only their history: a `Goals and targeting` section in the context-file spec, template, and intake records ideal role, current focus, what they want to work on next, growth direction, target locations (or `No restriction`), interests, evidence boundaries, positioning constraints, and claims to avoid as stated intent kept separate from verified facts.
+The `vitaecontext-build` module treats a Career Context file as both a factual source of truth and a private positioning guide. Major creation and reconciliation work includes a personalization interview, a confirmed positioning synthesis, and a user-selected narrative hierarchy. The validator keeps QUICK REFERENCE and semantic tags stable while allowing experience-first, project-first, research-first, or education-first bodies. Purpose, ownership, claim states, means-versus-objective distinctions, restrained metrics, and explicit claims to avoid guide the resulting entries.
 
 For a GitHub username or public profile or repository source, `vitaecontext-build` now routes retrieval through the installed sibling `vitaecontext-github` fetcher. The workflow consumes its bounded Markdown and JSON reports, preserves extraction warnings as evidence limitations, removes temporary output after use, and falls back to supplied material or another public fetch tool when the sibling skill or network is unavailable.
 

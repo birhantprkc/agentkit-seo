@@ -4,6 +4,14 @@ All notable changes to VitaeContext are documented here.
 
 This project follows npm package versions and mirrors them with matching GitHub `v*` tags.
 
+## 2.2.1 - 2026-08-22
+
+### Changed
+
+- Redesigned `vitaecontext-build` around a personalization interview, confirmed positioning synthesis, user-selected narrative hierarchy, purpose-led entries, explicit claim states, and restrained interpreted metrics.
+- Updated Career Context validation and bounded summaries to preserve the stable QUICK REFERENCE and semantic-tag interface without enforcing one universal body order; experience-first and independent-project-first files are now valid.
+- Updated the private starter and fictional example to demonstrate paths kept open, supporting means versus career objectives, membership boundaries, purpose-led projects, and claims to avoid.
+
 ## 2.2.0 - 2026-08-17
 
 ### Added
