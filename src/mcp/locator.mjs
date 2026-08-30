@@ -5,13 +5,29 @@ import process from "node:process";
 
 import { expandUserPath } from "../filesystem.mjs";
 
-export function findDefaultCareerContext(customPath = null, repoRoot = null) {
+function isFile(target) {
+  try {
+    return fs.statSync(target).isFile();
+  } catch {
+    return false;
+  }
+}
+
+function isDirectory(target) {
+  try {
+    return fs.statSync(target).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+export function findDefaultCareerContext(customPath = null, repoRoot = null, homeDirectory = os.homedir()) {
   if (customPath) {
     const resolved = path.resolve(expandUserPath(customPath));
     return {
       path: resolved,
       source: "explicit",
-      exists: fs.existsSync(resolved)
+      exists: isFile(resolved)
     };
   }
 
@@ -20,43 +36,38 @@ export function findDefaultCareerContext(customPath = null, repoRoot = null) {
     return {
       path: resolved,
       source: "env",
-      exists: fs.existsSync(resolved)
+      exists: isFile(resolved)
     };
   }
 
-  const defaultDir = path.join(os.homedir(), ".vitaecontext");
-  if (fs.existsSync(defaultDir)) {
-    const entries = fs.readdirSync(defaultDir);
-    const matches = entries.filter(
+  const defaultDir = path.join(homeDirectory, ".vitaecontext");
+  if (isDirectory(defaultDir)) {
+    const entries = fs.readdirSync(defaultDir, { withFileTypes: true });
+    const matches = entries
+      .filter((entry) => entry.isFile())
+      .map((entry) => entry.name)
+      .filter(
       (entry) =>
         entry.endsWith("-career-context.md") ||
         entry === "career-context.md" ||
         entry.endsWith(".context.md")
-    );
-    if (matches.length > 0) {
-      const selected = path.join(defaultDir, matches[0]);
+      )
+      .sort((a, b) => a.localeCompare(b));
+    const canonical = matches.find((entry) => entry === "career-context.md");
+    if (canonical || matches.length === 1) {
+      const selected = path.join(defaultDir, canonical ?? matches[0]);
       return {
         path: selected,
         source: "default_directory",
         exists: true
       };
     }
-  }
-
-  // Fallback to fictional public example if inside the repository and no private context is found
-  if (repoRoot) {
-    const fictionalExample = path.join(
-      repoRoot,
-      "hub",
-      "context-builder",
-      "examples",
-      "alex-morgan-fictional-career-context.md"
-    );
-    if (fs.existsSync(fictionalExample)) {
+    if (matches.length > 1) {
       return {
-        path: fictionalExample,
-        source: "demo_example",
-        exists: true
+        path: null,
+        source: "ambiguous_default_directory",
+        exists: false,
+        candidates: matches.map((entry) => path.join(defaultDir, entry))
       };
     }
   }
@@ -74,7 +85,7 @@ export function resolveDefaultVitaeGraph(customRoot = null, repoRoot = null) {
     return {
       root: resolved,
       source: "explicit",
-      exists: fs.existsSync(resolved)
+      exists: isDirectory(resolved)
     };
   }
 
@@ -83,12 +94,12 @@ export function resolveDefaultVitaeGraph(customRoot = null, repoRoot = null) {
     return {
       root: resolved,
       source: "env",
-      exists: fs.existsSync(resolved)
+      exists: isDirectory(resolved)
     };
   }
 
   const defaultDir = path.join(os.homedir(), ".vitaecontext", "vitaegraph");
-  if (fs.existsSync(defaultDir)) {
+  if (isDirectory(defaultDir)) {
     return {
       root: defaultDir,
       source: "default_directory",

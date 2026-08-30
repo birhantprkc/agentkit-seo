@@ -1,16 +1,51 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { summarizeContext, writeContextSummary } from "../context/summary.mjs";
+import { summarizeContext } from "../context/summary.mjs";
 import { validateContextFile } from "../context/parse.mjs";
+import { invalidParams } from "./errors.mjs";
 import { findDefaultCareerContext, resolveDefaultVitaeGraph } from "./locator.mjs";
+
+const SURFACES = new Set(["cv", "github", "linkedin", "portfolio", "x", "general"]);
+const RECORD_TYPES = new Set([
+  "experience",
+  "project",
+  "education",
+  "course",
+  "thesis",
+  "certification",
+  "award",
+  "publication"
+]);
+
+function missingContextMessage(context) {
+  if (context.source === "ambiguous_default_directory") {
+    return "Multiple Career Context files were found. Set VITAECONTEXT_CAREER_CONTEXT or start the server with --context <file>.";
+  }
+  return `Career Context file not found at ${context.path}. Create one using 'vitaecontext context init' or configure --context.`;
+}
+
+function validateOptionalString(args, name) {
+  if (args[name] !== undefined && (typeof args[name] !== "string" || !args[name].trim())) {
+    throw invalidParams(`Tool argument '${name}' must be a non-empty string.`);
+  }
+}
+
+function excerpt(text, query) {
+  const normalized = String(text ?? "").replace(/\s+/g, " ").trim();
+  if (!normalized) return "";
+  const matchAt = query ? normalized.toLowerCase().indexOf(query.toLowerCase()) : 0;
+  const start = Math.max(0, matchAt === -1 ? 0 : matchAt - 80);
+  const value = normalized.slice(start, start + 320);
+  return `${start > 0 ? "…" : ""}${value}${start + value.length < normalized.length ? "…" : ""}`;
+}
 
 export function listMcpTools() {
   return {
     tools: [
       {
         name: "get_career_context",
-        description: "Retrieve verified, evidence-bounded Career Context formatted as a task packet for a specific professional surface (e.g. cv, github, linkedin, portfolio, x, general).",
+        description: "Retrieve a user-maintained, evidence-bounded Career Context packet for a specific professional surface (cv, github, linkedin, portfolio, x, or general). The server reads only the context selected at startup or through VITAECONTEXT_CAREER_CONTEXT.",
         inputSchema: {
           type: "object",
           properties: {
@@ -19,13 +54,10 @@ export function listMcpTools() {
               enum: ["cv", "github", "linkedin", "portfolio", "x", "general"],
               description: "Target platform or surface for the career context packet. Defaults to 'general'.",
               default: "general"
-            },
-            path: {
-              type: "string",
-              description: "Optional explicit path to a Career Context file. If omitted, the default ~/.vitaecontext/*.md is used."
             }
           },
-          required: []
+          required: [],
+          additionalProperties: false
         }
       },
       {
@@ -36,7 +68,7 @@ export function listMcpTools() {
           properties: {
             query: {
               type: "string",
-              description: "Search keywords to match against title, organization, tags, and summary."
+              description: "Case-insensitive text to match against record ID, title, tags, and indexed record text."
             },
             type: {
               type: "string",
@@ -46,13 +78,10 @@ export function listMcpTools() {
             tag: {
               type: "string",
               description: "Filter by exact tag or skill."
-            },
-            root: {
-              type: "string",
-              description: "Optional explicit path to VitaeGraph root directory. Defaults to ~/.vitaecontext/vitaegraph."
             }
           },
-          required: []
+          required: [],
+          additionalProperties: false
         }
       },
       {
@@ -60,13 +89,9 @@ export function listMcpTools() {
         description: "Validate a Career Context file for structural integrity, YAML frontmatter, chronology consistency, and unfinished placeholders.",
         inputSchema: {
           type: "object",
-          properties: {
-            path: {
-              type: "string",
-              description: "Optional path to the Career Context file. Defaults to ~/.vitaecontext/*.md."
-            }
-          },
-          required: []
+          properties: {},
+          required: [],
+          additionalProperties: false
         }
       }
     ]
@@ -74,15 +99,25 @@ export function listMcpTools() {
 }
 
 export async function callMcpTool(name, args = {}, repoRoot = null, config = null, options = {}) {
+  if (!args || typeof args !== "object" || Array.isArray(args)) {
+    throw invalidParams("Tool arguments must be an object.");
+  }
+
   if (name === "get_career_context") {
     const surface = args.for ?? "general";
-    const context = findDefaultCareerContext(args.path || options.contextPath, repoRoot);
+    if (!SURFACES.has(surface)) {
+      throw invalidParams(`Unknown Career Context surface '${surface}'.`);
+    }
+    if (Object.keys(args).some((key) => key !== "for")) {
+      throw invalidParams("get_career_context accepts only the 'for' argument. Configure file access when starting the server.");
+    }
+    const context = findDefaultCareerContext(options.contextPath, repoRoot);
     if (!context.exists) {
       return {
         content: [
           {
             type: "text",
-            text: `Error: Career Context file not found at ${context.path}. Create one using 'vitaecontext context init' or specify --path.`
+            text: `Error: ${missingContextMessage(context)}`
           }
         ],
         isError: true
@@ -108,14 +143,24 @@ export async function callMcpTool(name, args = {}, repoRoot = null, config = nul
   }
 
   if (name === "search_vitaegraph") {
-    const graph = resolveDefaultVitaeGraph(args.root || options.vitaegraphRoot, repoRoot);
-    const indexPath = path.join(graph.root, ".generated", "graph.json");
+    for (const key of Object.keys(args)) {
+      if (!["query", "type", "tag"].includes(key)) {
+        throw invalidParams(`Unknown search_vitaegraph argument '${key}'. Configure graph access when starting the server.`);
+      }
+    }
+    for (const key of ["query", "type", "tag"]) validateOptionalString(args, key);
+    if (args.type && !RECORD_TYPES.has(args.type.toLowerCase())) {
+      throw invalidParams(`Unknown VitaeGraph record type '${args.type}'.`);
+    }
+
+    const graph = resolveDefaultVitaeGraph(options.vitaegraphRoot, repoRoot);
+    const indexPath = path.join(graph.root, ".generated", "search-index.json");
     if (!fs.existsSync(indexPath)) {
       return {
         content: [
           {
             type: "text",
-            text: `Error: VitaeGraph index not found at ${indexPath}. Run 'vitaecontext graph index' to generate the graph index.`
+            text: `Error: VitaeGraph search index not found at ${indexPath}. Run 'vitaecontext graph index' to generate it.`
           }
         ],
         isError: true
@@ -123,39 +168,36 @@ export async function callMcpTool(name, args = {}, repoRoot = null, config = nul
     }
 
     try {
-      const graphData = JSON.parse(fs.readFileSync(indexPath, "utf8"));
-      let nodes = graphData.nodes ?? [];
+      const searchData = JSON.parse(fs.readFileSync(indexPath, "utf8"));
+      let documents = searchData.documents ?? [];
 
       if (args.type) {
-        nodes = nodes.filter((node) => node.type === args.type);
+        const type = args.type.toLowerCase();
+        documents = documents.filter((document) => document.type?.toLowerCase() === type);
       }
 
       if (args.tag) {
         const queryTag = args.tag.toLowerCase();
-        nodes = nodes.filter((node) =>
-          Array.isArray(node.tags) && node.tags.some((t) => t.toLowerCase() === queryTag)
+        documents = documents.filter((document) =>
+          Array.isArray(document.tags) && document.tags.some((tag) => tag.toLowerCase() === queryTag)
         );
       }
 
       if (args.query) {
         const q = args.query.toLowerCase();
-        nodes = nodes.filter((node) => {
-          const titleMatch = node.title?.toLowerCase().includes(q);
-          const orgMatch = node.organization?.toLowerCase().includes(q);
-          const summaryMatch = node.summary?.toLowerCase().includes(q);
-          const roleMatch = node.role?.toLowerCase().includes(q);
-          return Boolean(titleMatch || orgMatch || summaryMatch || roleMatch);
-        });
+        documents = documents.filter((document) =>
+          [document.id, document.title, document.text, ...(document.tags ?? [])]
+            .some((value) => String(value ?? "").toLowerCase().includes(q))
+        );
       }
 
-      const results = nodes.map((n) => ({
-        id: n.id,
-        type: n.type,
-        title: n.title,
-        organization: n.organization || n.institution,
-        period: n.period,
-        tags: n.tags,
-        summary: n.summary
+      const results = documents.map((document) => ({
+        id: document.id,
+        type: document.type,
+        title: document.title,
+        path: document.path,
+        tags: document.tags,
+        excerpt: excerpt(document.text, args.query)
       }));
 
       return {
@@ -175,10 +217,13 @@ export async function callMcpTool(name, args = {}, repoRoot = null, config = nul
   }
 
   if (name === "validate_career_context") {
-    const context = findDefaultCareerContext(args.path || options.contextPath, repoRoot);
+    if (Object.keys(args).length > 0) {
+      throw invalidParams("validate_career_context does not accept tool arguments. Configure file access when starting the server.");
+    }
+    const context = findDefaultCareerContext(options.contextPath, repoRoot);
     if (!context.exists) {
       return {
-        content: [{ type: "text", text: `Error: Career Context file not found at ${context.path}` }],
+        content: [{ type: "text", text: `Error: ${missingContextMessage(context)}` }],
         isError: true
       };
     }
@@ -208,5 +253,5 @@ export async function callMcpTool(name, args = {}, repoRoot = null, config = nul
     }
   }
 
-  throw new Error(`Unknown tool: ${name}`);
+  throw invalidParams(`Unknown tool: ${name}`);
 }

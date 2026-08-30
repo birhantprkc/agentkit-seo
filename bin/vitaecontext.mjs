@@ -16,7 +16,7 @@ import { templateContext } from "../src/template.mjs";
 import { uninstallProvider } from "../src/uninstall.mjs";
 import { checkForUpdates } from "../src/update.mjs";
 import { showVersion } from "../src/version.mjs";
-import { startMcpStdioServer } from "../src/mcp/server.mjs";
+import { mcpServerOptions, startMcpStdioServer } from "../src/mcp/server.mjs";
 
 const invokedAs = path.basename(process.argv[1] ?? "vitaecontext");
 if (invokedAs === "agentkit-seo") {
@@ -42,10 +42,7 @@ async function run() {
 
   if (command === "mcp") {
     const flags = parseFlags(rest);
-    startMcpStdioServer(repoRoot, config, {
-      contextPath: flags.context || flags["context-path"],
-      vitaegraphRoot: flags.root || flags.vitaegraph
-    });
+    startMcpStdioServer(repoRoot, config, mcpServerOptions(flags));
     return;
   }
 
