@@ -1,8 +1,11 @@
 {
   "name": "vitaecontext",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "VitaeContext gives AI agents a private, reusable source of truth about a person's career, then provides focused skills for turning that context into grounded professional work.",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "vitaecontext": "bin/vitaecontext.mjs",
     "vitaecontext-mcp": "bin/vitaecontext-mcp.mjs",

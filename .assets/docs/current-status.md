@@ -2,14 +2,14 @@
 
 This file is the maintainer snapshot for what is live, what is packaged, and what remains open. Keep public positioning in `README.md`; keep operational status here.
 
-## As of 2026-08-22
+## As of 2026-08-30
 
 ### Public surfaces
 
 - Source repo: `https://github.com/vitaecontext/vitaecontext`
 - Website and human-readable hub: `https://vitaecontext.github.io/`
 - npm package: `https://www.npmjs.com/package/vitaecontext`
-- Current package version: `vitaecontext@2.2.1`
+- Current package version: `vitaecontext@2.2.2`
 
 Published release line:
 
@@ -23,6 +23,7 @@ Published release line:
 - `v2.1.0`
 - `v2.2.0`
 - `v2.2.1`
+- `v2.2.2`
 
 ### Current architecture
 
@@ -167,6 +168,7 @@ Validation surfaces currently include:
 - provider export smoke test
 - provider install smoke tests into `/tmp`
 - `npm pack --dry-run`
+- packed-artifact installation and live stdio startup through both installed MCP entry points
 
 ### Current priorities
 

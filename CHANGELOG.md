@@ -4,6 +4,17 @@ All notable changes to VitaeContext are documented here.
 
 This project follows npm package versions and mirrors them with matching GitHub `v*` tags.
 
+## 2.2.2 - 2026-08-30
+
+### Fixed
+
+- Corrected zero-install MCP commands and client configurations to run the published package with `npx -y vitaecontext mcp`; `vitaecontext-mcp` remains an executable installed by that package, not a separately published npm package.
+- Removed the unsafe fallback from a missing private Career Context to the bundled fictional example and made multiple default context candidates require explicit selection.
+- Resolved VitaeGraph record resources through generated stable-ID paths, blocked resource path traversal, and restricted wiki resources to packaged modules.
+- Repaired `search_vitaegraph` to query the generated lexical index with normalized record types instead of fields absent from `graph.json`.
+- Added JSON-RPC input validation, protocol-specific errors, prompt argument validation, sequential stdio request handling, and packed-package installation smoke coverage for both MCP executables.
+- Declared the documented Node.js `>=18.0.0` runtime requirement in npm package metadata.
+
 ## 2.2.1 - 2026-08-22
 
 ### Changed
