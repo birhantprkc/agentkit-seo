@@ -33,9 +33,9 @@ The provider-facing artifact should be the self-contained shared skill bundle. P
 | Gemini CLI | Yes | Extension bundle installs namespaced wrappers under `commands/vitaecontext/`. |
 | Antigravity CLI | Yes | Plugin bundle installs Gemini-compatible wrappers under `commands/vitaecontext/`, but imported command syntax is TBD until confirmed in `agy`. |
 | OpenCode | Yes | Flat wrappers are copied to `.opencode/commands/` or `~/.config/opencode/commands/`. |
-| Cursor | No | Uses native `.cursor/skills/` or stateless MCP server (`vitaecontext-mcp`). |
-| Windsurf | No | Uses native `.windsurf/skills/` or stateless MCP server (`vitaecontext-mcp`). |
-| Roo Code | No | Uses native `.roo/skills/` or stateless MCP server (`vitaecontext-mcp`). |
-| IBM Bob | No | Uses native `.ibm/skills/` or stateless MCP server (`vitaecontext-mcp`). |
-| Grok | No | Uses native `.grok/skills/` or stateless MCP server (`vitaecontext-mcp`). |
+| Cursor | No | Uses native `.cursor/skills/` or the stateless MCP command (`vitaecontext mcp`). |
+| Windsurf | No | Uses native `.windsurf/skills/` or the stateless MCP command (`vitaecontext mcp`). |
+| Roo Code | No | Uses native `.roo/skills/` or the stateless MCP command (`vitaecontext mcp`). |
+| IBM Bob | No | Uses native `.ibm/skills/` or the stateless MCP command (`vitaecontext mcp`). |
+| Grok | No | Uses native `.grok/skills/` or the stateless MCP command (`vitaecontext mcp`). |
 | Shared | No | Portable skill folders with `SKILL.md` for manual packaging or custom integration. |

@@ -6,7 +6,7 @@ Install the shared skills and rules into:
 
 - `.windsurf/skills/` or `.windsurfrules` for project-local Cascade workflows
 - `~/.codeium/windsurf/skills/` for personal global use
-- Or configure the stateless MCP server (`npx -y vitaecontext-mcp` or `vitaecontext mcp`) in Windsurf's `mcp_config.json`.
+- Or configure the stateless MCP server (`npx -y vitaecontext mcp` or the installed `vitaecontext mcp`) in Windsurf's `mcp_config.json`.
 
 Copy the self-contained shared skill runtime files, including `SKILL.md`, `references/`, and `wiki/`.
 
@@ -51,7 +51,7 @@ Add the server to your `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }

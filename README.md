@@ -136,11 +136,11 @@ npx vitaecontext context summary ~/.vitaecontext/name-surname-career-context.md 
   <img src=".assets/image/public-visuals/mcp/mcp-workflow.png" alt="VitaeContext MCP: Stateless Model Context Protocol bridge between coding workspaces and private career facts" width="100%" />
 </p>
 
-By registering `vitaecontext-mcp` with your AI coding tool, agents across all repositories can read your private Career Context and VitaeGraph without copying career files into your codebase.
+By registering the MCP server from the published `vitaecontext` package with your AI coding tool, agents across repositories can read your selected Career Context and VitaeGraph without copying career files into each codebase.
 
 ```bash
 # Direct MCP stdio execution
-npx -y vitaecontext-mcp
+npx -y vitaecontext mcp
 ```
 
 ### Client configuration
@@ -152,7 +152,7 @@ Add to your tool's MCP configuration (e.g. `claude_desktop_config.json`, Cursor 
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }

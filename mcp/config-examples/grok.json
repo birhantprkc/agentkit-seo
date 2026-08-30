@@ -2,7 +2,7 @@
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }

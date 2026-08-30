@@ -6,7 +6,7 @@ Install the shared skills and rules into:
 
 - `.cursor/rules/` for project-local Cursor rules (`.mdc` or Markdown)
 - `~/.cursor/rules/` for personal global Cursor rules
-- Or configure the stateless MCP server (`npx -y vitaecontext-mcp` or `vitaecontext mcp`) in Cursor's MCP Settings.
+- Or configure the stateless MCP server (`npx -y vitaecontext mcp` or the installed `vitaecontext mcp`) in Cursor's MCP Settings.
 
 Copy the self-contained shared skill runtime files, including `SKILL.md`, `references/`, and `wiki/`.
 
@@ -48,4 +48,4 @@ To enable seamless, workspace-agnostic access to your Career Context and VitaeGr
 2. Click **+ Add new MCP server**.
 3. Name: `vitaecontext`
 4. Type: `command`
-5. Command: `npx -y vitaecontext-mcp`
+5. Command: `npx -y vitaecontext mcp`

@@ -6,7 +6,7 @@ Install the shared skills into:
 
 - `.grok/skills/` for project-local use
 - `~/.grok/skills/` for personal global use
-- Or configure the stateless MCP server (`npx -y vitaecontext-mcp` or `vitaecontext mcp`) in your Grok tool or developer environment.
+- Or configure the stateless MCP server (`npx -y vitaecontext mcp` or the installed `vitaecontext mcp`) in your Grok tool or developer environment.
 
 Copy the self-contained shared skill runtime files, including `SKILL.md`, `references/`, and `wiki/`.
 

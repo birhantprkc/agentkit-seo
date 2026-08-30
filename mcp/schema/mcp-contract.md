@@ -34,7 +34,7 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
       },
       "serverInfo": {
         "name": "vitaecontext",
-        "version": "2.2.1"
+        "version": "2.2.2"
       }
     }
   }
@@ -46,7 +46,7 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
 
 ### `career-context://current`
 * **MIME type**: `text/markdown`
-* **Description**: Returns the active Career Context file located at `~/.vitaecontext/<name>-career-context.md`.
+* **Description**: Returns the user-selected Career Context file. Selection uses `--context`, `VITAECONTEXT_CAREER_CONTEXT`, the canonical `~/.vitaecontext/career-context.md`, or one unambiguous matching file in that order. It never substitutes bundled demo data.
 
 ### `vitaegraph://index`
 * **MIME type**: `application/json`
@@ -74,11 +74,9 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
         "type": "string",
         "enum": ["cv", "github", "linkedin", "portfolio", "x", "general"],
         "default": "general"
-      },
-      "path": {
-        "type": "string"
       }
-    }
+    },
+    "additionalProperties": false
   }
   ```
 
@@ -90,9 +88,9 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
     "properties": {
       "query": { "type": "string" },
       "type": { "type": "string" },
-      "tag": { "type": "string" },
-      "root": { "type": "string" }
-    }
+      "tag": { "type": "string" }
+    },
+    "additionalProperties": false
   }
   ```
 
@@ -101,9 +99,8 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
   ```json
   {
     "type": "object",
-    "properties": {
-      "path": { "type": "string" }
-    }
+    "properties": {},
+    "additionalProperties": false
   }
   ```
 
@@ -126,3 +123,23 @@ Specification for the VitaeContext Model Context Protocol (MCP) server interface
 ### `career_context_intake`
 * **Arguments**: `rawNotes` (optional).
 * **Returns**: Step-by-step career context intake questionnaire and synthesis instructions.
+
+---
+
+## 5. Filesystem access
+
+Filesystem roots are user-controlled server configuration, not model-controlled tool arguments:
+
+```bash
+vitaecontext mcp --context <career-context-file> --root <vitaegraph-directory>
+```
+
+`VITAECONTEXT_CAREER_CONTEXT` and `VITAEGRAPH_ROOT` provide equivalent environment configuration. `vitaegraph://record/{id}` resolves the stable ID through `.generated/graph.json` and rejects paths outside the configured VitaeGraph root. Wiki resources accept only the packaged module allowlist.
+
+## 6. Errors
+
+- Invalid JSON returns JSON-RPC `-32700`.
+- Invalid requests return `-32600`.
+- Invalid tool names, prompt names, arguments, and parameters return `-32602`.
+- Unavailable graph, record, wiki, and unsupported resources return `-32002` with the requested URI in `error.data`. The fixed `career-context://current` resource instead returns a short selection or initialization notice when no context is active.
+- Unexpected implementation failures return `-32603`; diagnostic details are written to `stderr`, not mixed into the `stdout` protocol stream.

@@ -6,7 +6,7 @@ Install the shared skills into:
 
 - `.roo/skills/` or `.clinerules` for project-local use
 - `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/skills/` for personal global use
-- Or configure the stateless MCP server (`npx -y vitaecontext-mcp` or `vitaecontext mcp`) in `cline_mcp_settings.json`.
+- Or configure the stateless MCP server (`npx -y vitaecontext mcp` or the installed `vitaecontext mcp`) in `cline_mcp_settings.json`.
 
 Copy the self-contained shared skill runtime files, including `SKILL.md`, `references/`, and `wiki/`.
 
@@ -49,7 +49,7 @@ Add the server to your `cline_mcp_settings.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }

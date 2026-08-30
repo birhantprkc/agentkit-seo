@@ -6,7 +6,7 @@ Install the shared skills into:
 
 - `.ibm/skills/` for project-local use
 - `~/.ibm/skills/` for personal global use
-- Or configure the stateless MCP server (`npx -y vitaecontext-mcp` or `vitaecontext mcp`) in your IBM assistant / agent configuration.
+- Or configure the stateless MCP server (`npx -y vitaecontext mcp` or the installed `vitaecontext mcp`) in your IBM assistant / agent configuration.
 
 Copy the self-contained shared skill runtime files, including `SKILL.md`, `references/`, and `wiki/`.
 

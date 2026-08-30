@@ -45,8 +45,8 @@ When working across multiple repositories, developer agents frequently need care
 1. **Zero Workspace Pollution**: No career files or personal context documents need to be copied into individual git repositories.
 2. **Instant Cross-Project Grounding**: Any tool supporting MCP can query your career records on demand.
 3. **Always Current**: Edits made to `~/.vitaecontext/career-context.md` or `~/.vitaecontext/vitaegraph/` are immediately reflected across all agent chats.
-4. **Evidence-Bounded**: Exposes structured tools that summarize only verified context for the specific platform requested.
-5. **Zero Runtime Dependencies**: Built with native Node.js ESM, ensuring lightning-fast startup and execution via `npx -y vitaecontext-mcp`.
+4. **Evidence-Bounded**: Exposes structured tools that preserve supplied facts and evidence limits for the requested platform without claiming independent verification.
+5. **Zero Runtime Dependencies**: Built with native Node.js ESM and available through the published `vitaecontext` package via `npx -y vitaecontext mcp`.
 
 ---
 
@@ -57,11 +57,11 @@ When working across multiple repositories, developer agents frequently need care
 Run the server over standard input/output (stdio JSON-RPC 2.0):
 
 ```bash
-# Using npx (standalone runner, zero pre-installation)
-npx -y vitaecontext-mcp
-
-# Or via the vitaecontext CLI
+# Using npx (downloads the published package when needed)
 npx -y vitaecontext mcp
+
+# Or after installing the vitaecontext package
+vitaecontext mcp
 ```
 
 ### Protocol Conformance
@@ -69,10 +69,10 @@ npx -y vitaecontext mcp
 | Parameter | Specification |
 | --- | --- |
 | **Protocol Version** | `2024-11-05` |
-| **Transport** | `stdio` (JSON-RPC 2.0 with newline-delimited framing and Content-Length header tolerance) |
+| **Transport** | `stdio` (JSON-RPC 2.0 with newline-delimited framing) |
 | **Runtime Requirements** | Node.js `>= 18.0.0` |
 | **Dependencies** | `0` external runtime dependencies (pure native ESM) |
-| **Discovery Paths** | `~/.vitaecontext/*-career-context.md`, `~/.vitaecontext/career-context.md`, `~/.vitaecontext/vitaegraph/` |
+| **Discovery Paths** | `~/.vitaecontext/career-context.md`, one unambiguous matching context file, and `~/.vitaecontext/vitaegraph/` |
 
 ---
 
@@ -90,7 +90,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
@@ -101,7 +101,7 @@ Add to your `claude_desktop_config.json`:
 Add the server using the native Claude Code MCP command:
 
 ```bash
-claude mcp add vitaecontext -- npx -y vitaecontext-mcp
+claude mcp add vitaecontext -- npx -y vitaecontext mcp
 ```
 
 ### Cursor IDE
@@ -112,7 +112,7 @@ claude mcp add vitaecontext -- npx -y vitaecontext-mcp
 4. Configure:
    * **Name**: `vitaecontext`
    * **Type**: `command`
-   * **Command**: `npx -y vitaecontext-mcp`
+   * **Command**: `npx -y vitaecontext mcp`
 
 ### Windsurf (Cascade)
 
@@ -123,7 +123,7 @@ Add to your `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
@@ -138,7 +138,7 @@ Add to your `cline_mcp_settings.json` or `roo_code_mcp_settings.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
@@ -153,7 +153,7 @@ Add to your `~/.gemini/antigravity-cli/mcp_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
@@ -168,7 +168,7 @@ Add to your `.ibm/mcp_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
@@ -183,11 +183,23 @@ Add to your `.grok/mcp_config.json`:
   "mcpServers": {
     "vitaecontext": {
       "command": "npx",
-      "args": ["-y", "vitaecontext-mcp"]
+      "args": ["-y", "vitaecontext", "mcp"]
     }
   }
 }
 ```
+
+### Select private data explicitly
+
+The server prefers `~/.vitaecontext/career-context.md`. If that file is absent and exactly one `*-career-context.md` or `*.context.md` file exists, it uses that file. If multiple candidates exist, the server returns a selection message instead of choosing one arbitrarily.
+
+Select paths in the server command when a client needs a non-default location:
+
+```bash
+npx -y vitaecontext mcp --context /private/path/career-context.md --root /private/path/vitaegraph
+```
+
+The environment variables `VITAECONTEXT_CAREER_CONTEXT` and `VITAEGRAPH_ROOT` provide the same configuration. MCP tool arguments cannot change filesystem roots; the user controls file access when starting the server.
 
 ---
 
@@ -209,17 +221,15 @@ Add to your `.grok/mcp_config.json`:
 ### Tools
 
 #### 1. `get_career_context`
-Retrieve verified, evidence-bounded Career Context formatted as a task packet for a specific professional surface.
+Retrieve a user-maintained, evidence-bounded Career Context packet for a specific professional surface.
 
 ```json
 {
-  "for": "github",
-  "path": "/optional/custom/path/to/career-context.md"
+  "for": "github"
 }
 ```
 * **Parameters**:
   * `for` (*string*, optional): `cv`, `github`, `linkedin`, `portfolio`, `x`, `general` (default: `general`).
-  * `path` (*string*, optional): Explicit path to a Career Context file. If omitted, automatically resolves from `~/.vitaecontext/*.md`.
 
 #### 2. `search_vitaegraph`
 Query and filter structured career records in the user's private VitaeGraph.
@@ -232,28 +242,25 @@ Query and filter structured career records in the user's private VitaeGraph.
 }
 ```
 * **Parameters**:
-  * `query` (*string*, optional): Keyword search matching title, organization, tags, and summary.
+  * `query` (*string*, optional): Case-insensitive text search across record ID, title, tags, and indexed record text.
   * `type` (*string*, optional): Filter by record type (`experience`, `project`, `education`, `course`, `thesis`, `certification`, `award`, `publication`).
   * `tag` (*string*, optional): Filter by exact skill/topic tag.
-  * `root` (*string*, optional): Path to VitaeGraph root directory (defaults to `~/.vitaecontext/vitaegraph`).
 
 #### 3. `validate_career_context`
 Validate a Career Context file for structural integrity, frontmatter, and unfinished placeholders.
 
 ```json
-{
-  "path": "/optional/custom/path/to/career-context.md"
-}
+{}
 ```
 
 ### Prompts
 
 | Prompt | Arguments | Description |
 | --- | --- | --- |
-| `cv_tailoring` | `targetRole` (required), `jobDescription` (optional) | Tailors a CV to a target role grounded strictly in verified Career Context evidence. |
+| `cv_tailoring` | `targetRole` (required), `jobDescription` (optional) | Tailors a CV to a target role while preserving the evidence limits in Career Context. |
 | `linkedin_audit` | `profileSnapshot` (optional) | Audits a LinkedIn profile against discoverability rules and internal scorecards. |
 | `github_showcase` | `focus` (optional) | Audits profile README and repository showcase strategy. |
-| `career_context_intake` | `rawNotes` (optional) | Guides synthesizing raw career notes into a structured, verified Career Context file. |
+| `career_context_intake` | `rawNotes` (optional) | Guides synthesizing raw career notes into a structured, user-maintained Career Context file. |
 
 ---
 
@@ -265,7 +272,7 @@ The official `@modelcontextprotocol/inspector` runs a visual web dashboard to in
 
 ```bash
 # Launch the MCP inspector
-npx @modelcontextprotocol/inspector npx -y vitaecontext-mcp
+npx @modelcontextprotocol/inspector npx -y vitaecontext mcp
 ```
 
 1. Open the URL displayed in the terminal (usually `http://localhost:5173`).
@@ -281,13 +288,13 @@ You can send standard JSON-RPC 2.0 payloads directly via stdin:
 
 ```bash
 # 1. Initialize Handshake
-printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"tester","version":"1.0.0"}}}\n' | node bin/vitaecontext-mcp.mjs
+printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"tester","version":"1.0.0"}}}\n' | npx -y vitaecontext mcp
 
 # 2. List Available Tools
-printf '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}\n' | node bin/vitaecontext-mcp.mjs
+printf '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}\n' | npx -y vitaecontext mcp
 
 # 3. Call get_career_context Tool
-printf '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_career_context","arguments":{"for":"cv"}}}\n' | node bin/vitaecontext-mcp.mjs
+printf '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"get_career_context","arguments":{"for":"cv"}}}\n' | npx -y vitaecontext mcp
 ```
 
 ### Method 3: Automated Test Suite
@@ -304,9 +311,9 @@ npm test
 
 The VitaeContext MCP server is designed around local-first privacy:
 
-1. **Local Operations Only**: Reads files strictly from local paths (`~/.vitaecontext/`). No external servers, telemetry, or network connections are made.
+1. **Local Operations Only**: The running server reads only the selected local Career Context, VitaeGraph, and packaged wiki files. It makes no network or telemetry requests; `npx` may contact npm to obtain the package before launch.
 2. **Zero Repository Pollution**: Private career files are never copied or written into individual project workspaces.
-3. **Evidence-Bounded**: Platforms receive bounded task packets with explicit evidence labels, preventing agents from hallucinating experience.
+3. **Evidence-Bounded**: Platforms receive bounded task packets with explicit evidence labels, reducing the risk of unsupported claims.
 4. **Stateless Runtime**: No background daemon, tokens, or persistent database state.
 
 ---

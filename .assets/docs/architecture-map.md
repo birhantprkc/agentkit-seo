@@ -8,7 +8,7 @@
 
 This repository has two jobs:
 
-- Maintain the canonical runtime skill package published as `vitaecontext` and its standalone MCP server `vitaecontext-mcp`.
+- Maintain the canonical runtime package published as `vitaecontext`, including its `vitaecontext mcp` command and installed `vitaecontext-mcp` executable.
 - Keep the human-readable project docs aligned with the runtime behavior.
 
 The most important rule is simple: edit the canonical source in `skills/` first, then update the adapter, docs, and validation surface that depend on it.
@@ -74,7 +74,7 @@ Use this table to decide what to edit for common tasks.
 | Change a human-readable playbook | `hub/<module>/` | Related runtime skill reference if behavior changes, `README.md`, `.assets/docs/current-status.md` | Link/path smoke check, `npm run validate` if runtime behavior changes |
 | Add a new skill module | `skills/vitaecontext-<module>/` | `src/export-config.json`, provider wrappers, `README.md`, `.assets/docs/project.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | `npm run validate`, export all providers |
 | Change VitaeGraph behavior | `vitaegraph/`, `skills/vitaecontext-vitaegraph/`, `src/vitaegraph/` | Root routing, provider wrappers, mirrors, public docs, tests | VitaeGraph smoke tests, `npm run validate`, export all providers |
-| Change MCP server behavior | `src/mcp/`, `mcp/`, `bin/vitaecontext-mcp.mjs` | `mcp/README.md`, `README.md`, `CHANGELOG.md` | `node --test test/mcp-server.test.mjs`, `npm run validate` |
+| Change MCP server behavior | `src/mcp/`, `mcp/`, `bin/vitaecontext-mcp.mjs` | `mcp/README.md`, `README.md`, `CHANGELOG.md` | `node --test test/mcp-server.test.mjs test/mcp-package.test.mjs`, `npm run validate` |
 | Change provider install behavior | `providers/<provider>/`, `src/export-config.json`, `bin/vitaecontext.mjs` | Provider docs in `README.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | Provider install smoke test |
 | Change CLI commands | `bin/vitaecontext.mjs`, `src/<subsystem>/` | `README.md`, `.assets/docs/current-status.md`, `CHANGELOG.md` | CLI command smoke test, `npm run validate:package` |
 | Change Career Context lifecycle behavior | `src/context/`, `skills/vitaecontext-build/references/` | `README.md`, relevant examples/templates, `CHANGELOG.md` | Context CLI tests, fictional example validation |
