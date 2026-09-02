@@ -74,14 +74,16 @@ test("packed npm artifact installs both MCP entry points and starts over stdio",
   const packReport = JSON.parse(
     execFileSync(npmCommand, ["pack", "--json", "--pack-destination", workspace], {
       cwd: repoRoot,
-      encoding: "utf8"
+      encoding: "utf8",
+      shell: process.platform === "win32"
     })
   )[0];
   const tarball = path.join(workspace, packReport.filename);
   const installRoot = path.join(workspace, "installed");
   execFileSync(npmCommand, ["install", "--ignore-scripts", "--no-audit", "--no-fund", "--prefix", installRoot, tarball], {
     cwd: workspace,
-    stdio: "pipe"
+    stdio: "pipe",
+    shell: process.platform === "win32"
   });
 
   const binDirectory = path.join(installRoot, "node_modules", ".bin");
